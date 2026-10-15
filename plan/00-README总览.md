@@ -52,6 +52,7 @@
 | 2026-10-15 | **M4 覆盖率诚实口径落地（K-17 实现）** | `src/coverage.js` 沿树抽象解释：number 区间（端点开闭）+ 离散值集；**复合条件否定分支不细化 → unknown 显式列出**（试金石实测：all 复合的 no 支路标 unknown，前缀矛盾仍可判定）；数域 `==`/`!=` 挖点不实现 → unknown（宁少报不假报）；离散域挖点可细化（正确检出）；报告 unreachable_branch / contradiction / tautology / unknown 四类 + JSON/文本双轨 |
 | 2026-10-15 | **M4 覆盖率对账口径（实测留档）** | 植入真值对账：unreachable 12 条（n7 约束影子）precision/recall 全 1.000；恒真 recall 1.000（n5 prefix_implied 12 条）；**nB 链/n6 的恒真额外检出是模板结构性事实**（precision 0.25~0.071 如实展示）——门槛只锁 recall 不锁 precision（K-17：额外检出如实登记不折算）；thresholds 真值 52 条三类复核全过（裁定级 bisect 证据对 + path 级路径变化 + implied 登记） |
 | 2026-10-15 | **M4 基准门槛随 manifest 下发** | `manifest.thresholds` 节 M4 定稿回填（全指标下限 1.0，恒真不设 precision 门槛）；`bench.js` 消费该节作达标判据（数据非代码）；`--probe` 探活四缺陷 × 12 套件 = 48 组全部 exit 1（篡改期望/坏引用/边界挪动 ε 外/不可达注入）；bench 数据源锚定：生成器真值与冻结件位级比对后才对账（杜绝内存真值脱钩） |
+| 2026-10-15 | **M5 演示素材可复现口径** | `docs/demo/` 截图 + GIF 全部程序化产出：headless Edge 驱动产物 HTML 三个状态（走通高亮 / Δ 高亮=注入 `renderCounterfactual` 调用 / 阈值面板），注入脚本只调页面自身渲染函数（不改任何判定逻辑）；GIF 由 ffmpeg（bayer 无随机抖动、统一调色板）合成，**两次生成 sha256 逐个一致**（清单 `docs/demo/SHA256SUMS.txt` 入仓）；M3 的旧截图（demo-game-*.png）由同名新分镜替代（内容覆盖、职责不变） |
 
 ## 承诺-证据台账
 
@@ -64,7 +65,7 @@
 | schema 校验 | 内嵌 `__DECISION_GRAPH__` JSON 固定 schema | 校验器随包 | 节点数=规则数、每边对应一条件、无孤儿节点、每路径终止于叶子裁定 | ✅ M4（`tools/validate.js` 不变量 1–4 + 坐标有限 + 零外链 + 无时间戳；`--check` 重渲染 sha256 逐字节比对，篡改产物 exit 1 实测） |
 | 覆盖率自检 | 枚举规则组合（纯算法） | 报告随基准产出 | 报告不可达节点／矛盾规则／恒真条件 | ✅ M4（`src/coverage.js` 抽象解释三值逻辑；对账 precision/recall 全 1.000（12 条植入）；unknown 如实列出） |
 | 合成规则集真值基准 | 程序化生成 + 假业务场景白名单 + 植入真值 | 基准零外部依赖、零 API | 一条命令复现；已知路径/临界点/不可达节点对账；指标口径进 README | ✅ M4（`node tools/bench.js` 指标表 + `--only` 白名单；12 套件全达标；探活 48 组必红；指标表已回填 README） |
-| 单文件 HTML 示例产物 | 合成规则集编译产出 | GitHub Release 附示例 .html | 下载后可离线打开、可点击走通 | ⬜ 待 M5/M6 |
+| 单文件 HTML 示例产物 | 合成规则集编译产出 | GitHub Release 附示例 .html | 下载后可离线打开、可点击走通 | 🟡 M5（`out/demo-game.html` 构建流程 + headless 离线打开实测通过、演示截图入仓 `docs/demo/`；Release 附带待 M6） |
 
 | 2026-10-15 | **M2 阈值对账口径（实测留档）** | 52 条阈值真值按可观测性三类归类：**裁定级 12**（每包 n4 宽松档，v*<T≤v+ε 且两侧裁定不同）+ **path 级 12**（每包 n1：两侧裁定相同、后继链不同）+ **prefix_implied 28**（nB 链阈值恒低于 n1 门槛，可达域内结构性恒真）——bisect 只断言裁定级证据对，path 级/implied 如实归类不折算命中（诚实口径 §6/§7） |
 
@@ -78,7 +79,7 @@
 | M3 | 单文件 HTML 渲染完成：tidy 布局精化 + 交互三件套（走通/Δ 高亮/阈值面板） | 无网络请求断言；布局可复现；坐标不来自模型；双渲染字节一致 | ✅ 2026-10-15（tidy 精化：裁定叶按引用实例化 + edgeTarget/leafSequence；三件套完成，阈值证据对构建期内嵌；67 项测试全绿；headless 冒烟双截图入仓；详见 06 与 HANDOFF-M4） |
 | M4 | 校验器 + 覆盖率自检 + 真值基准 | `--check` 逐字节比对通过；覆盖率对账有分母有分子；基准达标（门槛随 manifest）；探活逐套件必红 | ✅ 2026-10-15（validate.js 不变量 1–4 + sha256 比对；coverage.js 三值逻辑对账 P/R 全 1.000；bench.js 12 套件达标 + 探活 48 组必红 + exit 2 语义锁；83 项测试全绿；详见 06 与 HANDOFF-M5） |
 | M4 | 校验与基准：schema 断言 + 覆盖率自检 + 校验器 `--check`；合成基准评测达标 | 路径差/临界点/覆盖率断言全过；探活必红；基准复现 | ⬜ |
-| M5 | 交付：SKILL.md 主入口 + 技术报告 + README（GIF 演示）+ 示例单文件 HTML + 测试与 CI | 全链路命令可跑；示例产物离线可开；干净环境演练 | ⬜ |
+| M5 | 交付：SKILL.md 主入口 + 技术报告 + README（GIF 演示）+ 示例单文件 HTML + 测试与 CI | 全链路命令可跑；示例产物离线可开；干净环境演练 | ✅ 2026-10-15（SKILL.md 落盘，子代理无先验演练 PASS：7 命令全过 + 6 项红向验证吻合；docs/report.md 十节、断言均可复现；README 正式版含 GIF/截图/限制节；干净 clone 逐条命令一次跑通 8/8 exit 0、npm test 83 全绿；演示素材双跑 sha256 逐个一致；详见 06 与 HANDOFF-M6） |
 | M6 | 发布：**git tag + GitHub Release（附产物）+ 发布留档三件套**，发布 GitHub **公开仓库** | tag 存在、Release 附示例 HTML、留档文件入仓（`plan/RELEASE-M6.md`） | ⬜ |
 
 **M0 修订说明**：反事实/阈值二分从 M4 前移至 M2（与引擎同批交付可证伪语义），M4 聚焦校验器/覆盖率/基准——详表见 [06-里程碑详表.md](06-里程碑详表.md)；评分映射见 [07-交付对标与决策记录.md](07-交付对标与决策记录.md)。
