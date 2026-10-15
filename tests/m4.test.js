@@ -163,7 +163,14 @@ test('C3 validate 用法红向：缺参数 exit 2 / 缺文件 exit 2（K-1 语�
 });
 
 test('C4 extractEmbeddedJson + checkGraphInvariants 可独立调用（不变量 1–4）', () => {
-  const html = readFileSync(join(ROOT, 'out', 'demo-game.html'), 'utf8');
+  const rules = join(ROOT, 'data/samples/demo-game.rules.json');
+  const caseA = join(ROOT, 'data/samples/demo-game.case.json');
+  mkdirSync(join(ROOT, '.tmp'), { recursive: true });
+  const out = join(ROOT, '.tmp', 'm4-c4.html');
+  const b = spawnSync(process.execPath, [join(ROOT, 'tools', 'atlas.js'), 'build', rules, '--case', caseA, '-o', out], { cwd: ROOT, encoding: 'utf8' });
+  assert.equal(b.status, 0, b.stdout + b.stderr);
+  const html = readFileSync(out, 'utf8');
+  rmSync(out, { force: true });
   const graph = extractEmbeddedJson(html, 'atlas-graph');
   assert.ok(graph !== null && graph !== undefined);
   assert.equal(checkGraphInvariants(graph, { mode: 'tree', nodes: new Array(graph.nodes.length).fill({}) }).length, 0);
