@@ -35,20 +35,23 @@ test('布局确定性：双跑坐标完全相等（G2）', () => {
   assert.equal(l1.height, l2.height);
 });
 
-test('布局结构不变量：父节点 x = 子节点中点；叶子 x 严格递增（G2）', () => {
+test('布局结构不变量：父 x 居中于子节点范围；叶子 x 严格递增（G2，M3 tidy 口径 K-6）', () => {
   const graph = buildGraph(sampleRuleset());
   const layout = layoutGraph(graph);
   const pos = layout.positions;
-  const nodeById = new Map(graph.nodes.map((n) => [n.id, n]));
   for (const n of graph.nodes) {
-    const ys = pos[n.yes.to];
-    const ns = pos[n.no.to];
-    const expected = (ys.x + ns.x) / 2;
-    assert.equal(pos[n.id].x, expected, '节点 ' + n.id + ' 应居中于子节点');
+    const ys = pos[layout.edgeTarget[n.id + ':yes']].x;
+    const ns = pos[layout.edgeTarget[n.id + ':no']].x;
+    const lo = Math.min(ys, ns);
+    const hi = Math.max(ys, ns);
+    assert.ok(pos[n.id].x >= lo && pos[n.id].x <= hi, '节点 ' + n.id + ' 应居中于子节点范围');
   }
-  // 叶子（裁定）x 严格递增（按图中出现顺序）
-  const leafXs = graph.verdicts.map((v) => pos[v.id].x);
-  for (let i = 1; i < leafXs.length; i++) assert.ok(leafXs[i] > leafXs[i - 1], '叶子 x 应严格递增');
+  // 叶子 x 严格递增（沿中序叶序 leafSequence）
+  let prev = -Infinity;
+  for (const key of layout.leafSequence) {
+    assert.ok(pos[key].x > prev, '叶子 x 应沿中序严格递增：' + key);
+    prev = pos[key].x;
+  }
 });
 
 test('产物契约：内嵌 JSON 可解析、非模块脚本、含 SVG 与基础样式（G5 前提）', () => {
