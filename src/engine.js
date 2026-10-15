@@ -10,6 +10,10 @@
 //     与产物 SVG 的 line.edge 元素一一对应。
 //   - list 模式（M2）：按序逐条求值、首命中生效；无命中 → default_verdict；
 //     nodePath = 已求值规则序列（含命中条），未求值规则不出现。
+//     trace 形状与 tree 完全一致：miss → {from: 规则i, branch:"no", to: 规则i+1}，
+//     命中 → 终端边 {from: 命中规则, branch:"yes", to: 裁定id}；
+//     末条 miss → {from: 末条规则, branch:"no", to: default_verdict}——
+//     与 graph.js 的 list→tree 编译链逐边一致（编译等价性的 trace 级判据）。
 
 export function evaluateCondition(cond, values) {
   if (cond.all !== undefined) {
@@ -65,4 +69,37 @@ export function traceRuleset(rs, values) {
     cur = next;
   }
   throw new Error('engine：步数超出节点数（结构错误：环未被校验拦截？）');
+}
+
+export function traceListRuleset(rs, values) {
+  // list 模式求值：按序逐条、首命中生效；无命中 → default_verdict（04 §2）。
+  const verdictById = new Map(rs.verdicts.map((v) => [v.id, v]));
+  const trace = { ruleset_id: rs.ruleset_id, nodePath: [], edges: [], steps: [], verdict: null };
+  const rules = rs.rules;
+  for (let i = 0; i < rules.length; i++) {
+    const rule = rules[i];
+    const passed = evaluateCondition(rule.when, values);
+    const next = passed ? verdictById.has(rule.then) ? rule.then : null : i + 1 < rules.length ? rules[i + 1].id : rs.default_verdict;
+    trace.nodePath.push(rule.id);
+    trace.steps.push({ node: rule.id, result: passed, branch: passed ? 'yes' : 'no', next });
+    if (i > 0) {
+      const prev = trace.steps[i - 1];
+      trace.edges.push({ from: prev.node, branch: prev.branch, to: rule.id });
+    }
+    if (passed) {
+      const vd = verdictById.get(rule.then);
+      trace.verdict = { id: vd.id, label: vd.label, kind: vd.kind };
+      trace.edges.push({ from: rule.id, branch: 'yes', to: rule.then }); // 终端边（F-5 同口径）
+      return trace;
+    }
+  }
+  const vd = verdictById.get(rs.default_verdict);
+  trace.verdict = { id: vd.id, label: vd.label, kind: vd.kind };
+  // 全 miss 走默认裁定：末条规则的 no 边即终端边（F-5 同口径：edges 含全部走通的边）
+  trace.edges.push({ from: rules[rules.length - 1].id, branch: 'no', to: rs.default_verdict });
+  return trace;
+}
+
+export function traceRulesetAny(rs, values) {
+  return rs.mode === 'list' ? traceListRuleset(rs, values) : traceRuleset(rs, values);
 }

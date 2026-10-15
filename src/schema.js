@@ -7,7 +7,8 @@
 //     E_REF / E_CYCLE / E_UNREACHABLE / E_FIELD_UNKNOWN / E_OP / E_VALUE /
 //     E_COMPOUND_EMPTY / E_SEARCH_RANGE / E_MODE / E_DEFAULT_MISSING /
 //     E_CASE_MISSING / E_CASE_UNKNOWN / E_CASE_VALUE。
-// v0 覆盖：tree 模式（显式节点树）+ 原子/复合条件 + 全量错误码；list 模式 M2 接入。
+// v1（M2）：tree + list 双模式。list：rules 有序规则 {id, label?, when, then}，首命中生效，
+// 必带 default_verdict；nodes/rules 互斥（E_MODE）。
 
 export const ERROR_CODES = Object.freeze([
   'E_SCHEMA_VERSION', 'E_REQUIRED', 'E_TYPE', 'E_ID_DUP', 'E_ROOT_MISSING',
@@ -95,11 +96,28 @@ export function validateRuleset(rs) {
     errors.push({ code: 'E_MODE', path: '.mode', message: 'mode 必须是 tree 或 list' });
     return { ok: false, errors };
   }
-  if (mode === 'list') {
-    errors.push({ code: 'E_MODE', path: '.mode', message: 'list 模式 M2 接入（v0 仅支持 tree）' });
+  if (mode === 'tree' && rs.rules !== undefined) {
+    errors.push({ code: 'E_MODE', path: '.rules', message: 'tree 模式不得携带 rules（nodes/rules 互斥）' });
     return { ok: false, errors };
   }
-  if (!Array.isArray(rs.nodes) || rs.nodes.length === 0) {
+  if (mode === 'list' && rs.nodes !== undefined) {
+    errors.push({ code: 'E_MODE', path: '.nodes', message: 'list 模式不得携带 nodes（nodes/rules 互斥）' });
+    return { ok: false, errors };
+  }
+  if (mode === 'list' && rs.root !== undefined) {
+    errors.push({ code: 'E_MODE', path: '.root', message: 'list 模式不得携带 root' });
+    return { ok: false, errors };
+  }
+  if (mode === 'list' && rs.default_verdict === undefined) {
+    errors.push({ code: 'E_DEFAULT_MISSING', path: '.default_verdict', message: 'list 模式必须声明 default_verdict' });
+    return { ok: false, errors };
+  }
+  if (mode === 'list') {
+    if (!Array.isArray(rs.rules) || rs.rules.length === 0) {
+      errors.push({ code: 'E_REQUIRED', path: '.rules', message: 'list 模式需要非空 rules 数组' });
+      return { ok: false, errors };
+    }
+  } else if (!Array.isArray(rs.nodes) || rs.nodes.length === 0) {
     errors.push({ code: 'E_REQUIRED', path: '.nodes', message: 'tree 模式需要非空 nodes 数组' });
     return { ok: false, errors };
   }
@@ -147,21 +165,53 @@ export function validateRuleset(rs) {
     verdictIds.add(v.id);
   });
 
-  // nodes
+  // nodes（tree 模式；list 模式无 nodes，收集空集走 validateListBody）
   const nodeIds = new Set();
-  rs.nodes.forEach((n, i) => {
-    const p = '.nodes[' + i + ']';
-    if (!isPlainObject(n)) { errors.push({ code: 'E_TYPE', p, message: 'node 必须是对象' }); return; }
-    if (n.id === undefined || n.condition === undefined || n.branches === undefined) { errors.push({ code: 'E_REQUIRED', p, message: 'node 缺 id/condition/branches' }); return; }
-    if (nodeIds.has(n.id)) errors.push({ code: 'E_ID_DUP', path: p + '.id', message: 'node id 重复：' + n.id });
-    nodeIds.add(n.id);
-  });
+  for (const n of rs.nodes || []) {
+    if (!isPlainObject(n)) { errors.push({ code: 'E_TYPE', path: '.nodes', message: 'node 必须是对象' }); continue; }
+    if (n.id !== undefined) {
+      if (nodeIds.has(n.id)) errors.push({ code: 'E_ID_DUP', path: '.nodes', message: 'node id 重复：' + n.id });
+      nodeIds.add(n.id);
+    }
+  }
   if (verdictIds.size === 0) errors.push({ code: 'E_REQUIRED', path: '.verdicts', message: '至少需要一个裁定' });
   for (const nid of nodeIds) {
     if (verdictIds.has(nid)) errors.push({ code: 'E_ID_DUP', path: '.nodes', message: '节点 id 与裁定 id 冲突：' + nid });
   }
   if (errors.length > 0) return { ok: false, errors };
 
+  if (mode === 'list') return validateListBody(rs, inputTypes, inputValues, verdictIds, errors);
+  return validateTreeBody(rs, inputTypes, inputValues, nodeIds, verdictIds, errors);
+}
+
+// list 模式主体校验：rules 有序、when 条件合法、then 指向已声明裁定、default_verdict 合法。
+function validateListBody(rs, inputTypes, inputValues, verdictIds, errors) {
+  const ruleIds = new Set();
+  rs.rules.forEach((r, i) => {
+    const p = '.rules[' + i + ']';
+    if (!isPlainObject(r)) { errors.push({ code: 'E_TYPE', path: p, message: 'rule 必须是对象' }); return; }
+    if (r.id === undefined || r.when === undefined || r.then === undefined) {
+      errors.push({ code: 'E_REQUIRED', path: p, message: 'rule 缺 id/when/then' }); return;
+    }
+    if (typeof r.id !== 'string' || !/^[A-Za-z_][A-Za-z0-9_-]*$/.test(r.id)) {
+      errors.push({ code: 'E_TYPE', path: p + '.id', message: 'rule id 必须匹配 ^[A-Za-z_][A-Za-z0-9_-]*$' }); return;
+    }
+    if (ruleIds.has(r.id)) errors.push({ code: 'E_ID_DUP', path: p + '.id', message: 'rule id 重复：' + r.id });
+    ruleIds.add(r.id);
+    if (verdictIds.has(r.id)) errors.push({ code: 'E_ID_DUP', path: p + '.id', message: 'rule id 与裁定 id 冲突：' + r.id });
+    if (r.then !== undefined && !verdictIds.has(r.then)) {
+      errors.push({ code: 'E_REF', path: p + '.then', message: 'then 必须指向已声明裁定：' + String(r.then) });
+    }
+    validateCondition(r.when, inputTypes, inputValues, p + '.when', errors);
+  });
+  if (rs.default_verdict !== undefined && !verdictIds.has(rs.default_verdict)) {
+    errors.push({ code: 'E_REF', path: '.default_verdict', message: 'default_verdict 不是已声明的裁定' });
+  }
+  return errors.length === 0 ? { ok: true, errors: [] } : { ok: false, errors };
+}
+
+// tree 模式主体校验（条件 + 分支引用 + root + 环/可达性）。
+function validateTreeBody(rs, inputTypes, inputValues, nodeIds, verdictIds, errors) {
   // conditions + branches
   const edges = [];
   rs.nodes.forEach((n, i) => {
