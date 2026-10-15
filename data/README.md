@@ -19,21 +19,21 @@
 
 ## 一、依据查证记录（逐条三态 + 检索式 + 基准日）
 
-### 1.1 开源空白（**软论据 ⬜**）
+### 1.1 开源空白（✅ M6 发布复跑闭环，2026-10-15）
 
-> **基准日 2026-10-15**。以下 8 条检索式在 GitHub 检索**全 0 结果**。
-> **强度分层声明**：无检索式快照、无日期截图、无入库链接的定性查证，**只作辅助性软论据 ⬜**，不得与"官方原文直连核对"类硬锚点并列；检索式与基准日已登记，可回溯复跑。
+> **基准日 2026-10-15（M6 发布前复跑，gh api search/repositories 实测）**。8 条检索式**复跑仍全 0 结果**。
+> **强度分层声明**：检索式、基准日、复跑结果已入库（gh api 可回溯复跑）；无页面截图（API total_count 为准）。
 
-| 检索式 | 结果 | 三态 |
-|---|---|---|
-| `decision engine skill eligibility` | **0** | ⬜ 软论据（基准日 2026-10-15） |
-| `rules to flowchart skill agent` | **0** | ⬜ 软论据（基准日 2026-10-15） |
-| `policy rules visualization skill` | **0** | ⬜ 软论据（基准日 2026-10-15） |
-| `counterfactual visualization skill` | **0** | ⬜ 软论据（基准日 2026-10-15） |
-| `what-if analysis skill agent` | **0** | ⬜ 软论据（基准日 2026-10-15） |
-| `threshold boundary analysis skill` | **0** | ⬜ 软论据（基准日 2026-10-15） |
-| `interactive flowchart evaluator skill` | **0** | ⬜ 软论据（基准日 2026-10-15） |
-| `benefits eligibility calculator skill` | **0** | ⬜ 软论据（基准日 2026-10-15） |
+| 检索式 | 出题日结果 | M6 复跑（2026-10-15） | 三态 |
+|---|---|---|---|
+| `decision engine skill eligibility` | **0** | **0** | ✅ 复跑闭环 |
+| `rules to flowchart skill agent` | **0** | **0** | ✅ 复跑闭环 |
+| `policy rules visualization skill` | **0** | **0** | ✅ 复跑闭环 |
+| `counterfactual visualization skill` | **0** | **0** | ✅ 复跑闭环 |
+| `what-if analysis skill agent` | **0** | **0** | ✅ 复跑闭环 |
+| `threshold boundary analysis skill` | **0** | **0** | ✅ 复跑闭环 |
+| `interactive flowchart evaluator skill` | **0** | **0** | ✅ 复跑闭环 |
+| `benefits eligibility calculator skill` | **0** | **0** | ✅ 复跑闭环 |
 
 ### 1.2 沾边弱竞品（✅ 实测观测，星数为**基准日 2026-10-15 快照**）
 
@@ -50,23 +50,23 @@
 
 | 仓库 | 星数 | 已占卖点 | 三态 |
 |---|---|---|---|
-| `tt-a1i/archify` | **83823★** | 通用"想法/代码库→可交互图表" | ✅ 实测观测（星数为基准日快照） |
+| `tt-a1i/archify` | **83912★** | 通用"想法/代码库→可交互图表" | ✅ 实测观测（星数为基准日快照） |
 | `anyforge/PaintForge` | **2★**（2026-09，archify 的 fork） | 自称"16 diagram types, **deterministic layout, verifiable output**"——已占"确定性布局+可验证"**通用**卖点（含 flowchart/gantt/sankey/network/ER/mindmap） | ✅ 实测观测（星数为基准日快照） |
 | `zluckyhou/chart-forge` | 2★ | 数据→图表 + 校验配色 | ✅ 实测观测（星数为基准日快照） |
-| `nicobailon/visual-explainer` | 10441★ | 讲解可视化 | ✅ 实测观测（星数为基准日快照） |
-| `wheresryan22/anatomy` | 11673★ | 等轴测 | ✅ 实测观测（星数为基准日快照） |
-| `yang0/handraw-style` | 5451★ | 手绘风格 | ✅ 实测观测（星数为基准日快照） |
-| `alchaincyf/huashu-art-motion` | 4023★ | 艺术动画 | ✅ 实测观测（星数为基准日快照） |
-| `Vincentwei1021/anything2explainer` | 2510★ | 讲解视频 | ✅ 实测观测（星数为基准日快照） |
-| `coldteadotai/pr-lens` | 1962★ | PR 架构图 | ✅ 实测观测（星数为基准日快照） |
-| `bas3line/ascii` | 865★ | ASCII 图 | ✅ 实测观测（星数为基准日快照） |
-| `deeplethe/solid-glass` | 874★ | 设计系统 | ✅ 实测观测（星数为基准日快照） |
-| `DozenTwelve/Papermorph` | 728★ | 变换动画 | ✅ 实测观测（星数为基准日快照） |
-| `ythx-101/live-panel-skill` | 725★ | 配置驱动架构图 | ✅ 实测观测（星数为基准日快照） |
+| `nicobailon/visual-explainer` | 10447★ | 讲解可视化 | ✅ 实测观测（星数为基准日快照） |
+| `wheresryan22/anatomy` | 12191★ | 等轴测 | ✅ 实测观测（星数为基准日快照） |
+| `yang0/handraw-style` | 5472★ | 手绘风格 | ✅ 实测观测（星数为基准日快照） |
+| `alchaincyf/huashu-art-motion` | 4045★ | 艺术动画 | ✅ 实测观测（星数为基准日快照） |
+| `Vincentwei1021/anything2explainer` | 2517★ | 讲解视频 | ✅ 实测观测（星数为基准日快照） |
+| `coldteadotai/pr-lens` | 1963★ | PR 架构图 | ✅ 实测观测（星数为基准日快照） |
+| `bas3line/ascii` | 866★ | ASCII 图 | ✅ 实测观测（星数为基准日快照） |
+| `deeplethe/solid-glass` | 950★ | 设计系统 | ✅ 实测观测（星数为基准日快照） |
+| `DozenTwelve/Papermorph` | 730★ | 变换动画 | ✅ 实测观测（星数为基准日快照） |
+| `ythx-101/live-panel-skill` | 738★ | 配置驱动架构图 | ✅ 实测观测（星数为基准日快照） |
 
 **差异化结论**：上表样本占的是**渲染语义**（画得像/布局确定/配色可校验）；本题占的是**求值语义**（规则逐条求值、反事实路径差可断言、阈值二分可证伪）。**两者不撞车**——它们能画决策树形状，但不会**求值**、不会做**反事实路径差**、不会**二分找阈值**。
 
-**星数口径声明**：上表星数为**基准日 2026-10-15 快照**，会随时间漂移；题面与台账统一标注基准日，**发布前复跑一次并记快照**（见 §四 待核对项）。
+**星数口径声明**：上表星数为**基准日 2026-10-15 快照（M6 发布当日复跑更新，gh api repos/*/ 实测）**，会随时间漂移；出题日与 M6 复跑两轮快照均已留档，题面与台账统一标注基准日。**M6 复检结论：archify/PaintForge 未新增求值/反事实/阈值能力**（archify 近期仅新增 5 种图类型预览=渲染语义扩展；两仓 counterfactual/threshold bisect 代码检索 0 命中，2026-10-15 实测）——求值语义赛道未被占。
 
 ---
 
@@ -127,14 +127,14 @@
 - **数值口径同源**：规则集的注记/说明文本与 plan 算法描述**同源**，禁止在注记里手写第二份口径表述；
 - **门槛来源**：合成基准的达标门槛是**数据不是代码**，写进 manifest/README。
 
-## 五、待核对项（⬜ 闭环路径）
+## 五、待核对项（✅ M6 发布全部闭环，2026-10-15）
 
-| # | 待核对项 | 闭环路径 |
-|---|---|---|
-| 1 | 8 条检索式的 0 结果快照 | 发布前复跑一次 GitHub 检索并记快照/截图入库（当前为软论据 ⬜，已记检索式 + 基准日） |
-| 2 | 已占赛道星数漂移 | 星数为**基准日 2026-10-15 快照**；发布前复跑一次并更新基准日 |
-| 3 | 合成规则集白名单场景 | ✅ M1 定稿（§三 4 场景定稿，生成器落地 12 包入 `data/benchmark/`） |
-| 4 | 已占赛道"求值语义"复检 | 发布前确认 archify/PaintForge 等**未新增**规则求值/反事实/阈值能力（防赛道被占） |
+| # | 待核对项 | 闭环路径 | 状态 |
+|---|---|---|---|
+| 1 | 8 条检索式的 0 结果快照 | 发布前复跑一次 GitHub 检索并记快照/截图入库（当前为软论据 ⬜，已记检索式 + 基准日） | ✅ M6 复跑（§1.1 gh api total_count 全 0，两轮快照入表） |
+| 2 | 已占赛道星数漂移 | 星数为**基准日 2026-10-15 快照**；发布前复跑一次并更新基准日 | ✅ M6 复跑（§1.2/1.3 星数已更新为发布日实测值） |
+| 3 | 合成规则集白名单场景 | ✅ M1 定稿（§三 4 场景定稿，生成器落地 12 包入 `data/benchmark/`） | ✅ |
+| 4 | 已占赛道"求值语义"复检 | 发布前确认 archify/PaintForge 等**未新增**规则求值/反事实/阈值能力（防赛道被占） | ✅ M6 复检（archify 动态=渲染语义扩展；counterfactual/threshold bisect 代码检索 0 命中） |
 
 ## 六、诚实口径
 

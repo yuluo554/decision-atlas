@@ -98,7 +98,7 @@ tidy-tree 系（Reingold–Tilford 思路）手写实现：叶节点按中序分
 2. 算子/类型扩展：白名单加算子只需 engine + schema + coverage 三处同步；
 3. 布局：tidy 已冻结，换布局算法不影响求值语义（坐标与语义解耦）；
 4. 基准扩充：加场景只需扩展 gen_bench 模板并重生成（门槛随 manifest.thresholds 下发，数据非代码）；
-5. 发布：GitHub 公开仓库 + Release（M6），CI 四矩阵已预置（本地等价校验全绿，CI 待首推验证）。
+5. 发布：GitHub 公开仓库 + Release（M6），CI 四矩阵全绿（ubuntu/windows × node 22/24，2026-10-15 首推实跑：3 push = 3 run，前两轮失败如实留档 plan/RELEASE-M6.md）。
 
 ## 十、复现命令索引
 

@@ -6,7 +6,7 @@
 
 ![演示 GIF：走通高亮 → 反事实 Δ 高亮 → 阈值面板](docs/demo/demo.gif)
 
-> 状态：**M5 交付完成**（M0 计划先行、M1 数据先行、M2 确定性内核、M3 渲染、M4 校验与基准、M5 SKILL/报告/素材已完成；GitHub 发布 M6 推进中）。
+> 状态：**v0.1.0 已发布**（M0 计划先行、M1 数据先行、M2 确定性内核、M3 渲染、M4 校验与基准、M5 SKILL/报告/素材、M6 GitHub 公开发布——tag v0.1.0 + Release + 发布留档，项目完结）。
 
 ## 与"AI 画图"的本质区别
 
@@ -85,7 +85,7 @@ plan/      项目计划（00–07 + 交接快照 HANDOFF-M*.md）
 | M3 | 单文件 HTML 渲染完成（tidy 布局 + 交互） | ✅ |
 | M4 | 校验器 + 覆盖率自检 + 真值基准 | ✅ |
 | M5 | SKILL.md + 技术报告 + README 正式版 + 演示素材 | ✅ |
-| M6 | GitHub 公开发布 + Release | ⬜ |
+| M6 | GitHub 公开发布 + Release | ✅ 2026-10-15（[v0.1.0 Release](https://github.com/yuluo554/decision-atlas/releases/tag/v0.1.0)） |
 
 ## 限制
 
