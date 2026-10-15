@@ -9,7 +9,7 @@
     "node": ">=20"
   },
   "scripts": {
-    "test": "node --test tests/schema.test.js tests/engine.test.js tests/render.test.js tests/hygiene.test.js tests/genbench.test.js tests/m2.test.js tests/m3.test.js",
+    "test": "node --test tests/schema.test.js tests/engine.test.js tests/render.test.js tests/hygiene.test.js tests/genbench.test.js tests/m2.test.js tests/m3.test.js tests/m4.test.js",
     "selftest": "node tools/atlas.js selftest",
     "genbench": "node tools/gen_bench.js",
     "genbench:check": "node tools/gen_bench.js --check",

@@ -249,7 +249,19 @@ export function generateAll() {
     sampling: {
       declaration: '抽样非穷举：分母 = 规则包总数 / 节点合计 / 案例-边对合计（见 totals），分子 = 植入真值条目；任何覆盖率表述必须带此分母。',
     },
-    thresholds_note: '指标门槛（路径/裁定准确率下限、临界点命中率、不可达检出 precision/recall、反事实对账率）数值 M4 定稿后回填本文件；M1 仅立骨架。',
+    // 指标门槛（M4 定稿回填）：bench.js 读取本节作为达标判据（数据非代码，改门槛即改达标线）。
+    // 恒真检出只设 recall 下限：模板 nB*/n6 的恒真额外检出是结构性事实（coverage 对账的 FP 如实
+    // 展示不折算），不设 precision 上限门槛（K-17 诚实口径）。
+    thresholds: {
+      path_accuracy_min: 1.0,
+      verdict_accuracy_min: 1.0,
+      boundary_hit_min: 1.0,
+      counterfactual_reconcile_min: 1.0,
+      unreachable_recall_min: 1.0,
+      unreachable_precision_min: 1.0,
+      tautology_recall_min: 1.0,
+    },
+    thresholds_note: '指标门槛随本文件下发（tools/bench.js 消费 thresholds 节）；M4 定稿回填，全指标下限 1.0——冻结模板上全部可观测真值必须命中，恒真 precision 不设门槛（额外检出如实登记）。',
     packs: packs.map(({ scenario, tier, pack, rid }) => ({
       scenario,
       tier,
