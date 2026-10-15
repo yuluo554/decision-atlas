@@ -21,8 +21,8 @@ jobs:
           node-version: ${{ matrix.node }}
       - name: 自检（selftest：确定性双跑 + 渲染双跑 + 无外链）
         run: node tools/atlas.js selftest
-      - name: 测试（零依赖，无需 install）
-        run: node --test tests/
+      - name: 测试（零依赖，无需 install；逐文件列出——node --test 目录形式实测 MODULE_NOT_FOUND，F-2 口径）
+        run: node --test tests/schema.test.js tests/engine.test.js tests/render.test.js tests/hygiene.test.js tests/genbench.test.js tests/m2.test.js tests/m3.test.js tests/m4.test.js
       - name: 示例构建冒烟
         run: node tools/atlas.js build data/samples/demo-game.rules.json --case data/samples/demo-game.case.json -o out/ci-demo.html
       - name: CLI 退出码语义冒烟（未知命令 = 2）
