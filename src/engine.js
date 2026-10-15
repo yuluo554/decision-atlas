@@ -5,7 +5,9 @@
 //   - 零规则字面量：本模块（及一切求值/渲染代码）不得出现规则集阈值/裁定串——
 //     数值只存在于规则集；门禁测试扫描本文件（M2 建立扫描面）；
 //   - trace 结构：{ ruleset_id, nodePath, edges, steps, verdict }；
-//     edges 元素形如 {from, branch, to}，branch ∈ "yes" | "no"（branch 参与边的身份）。
+//     edges 元素形如 {from, branch, to}，branch ∈ "yes" | "no"（branch 参与边的身份）；
+//     edges = 全部走通的边，**含进入裁定的终端边**（v1 冻结勘误 F-5：v0 曾漏记终端边），
+//     与产物 SVG 的 line.edge 元素一一对应。
 //   - list 模式（M2）：按序逐条求值、首命中生效；无命中 → default_verdict；
 //     nodePath = 已求值规则序列（含命中条），未求值规则不出现。
 
@@ -43,6 +45,9 @@ export function traceRuleset(rs, values) {
     if (verdictById.has(cur)) {
       const vd = verdictById.get(cur);
       trace.verdict = { id: vd.id, label: vd.label, kind: vd.kind };
+      // 终止：最后一条 steps 的目标即命中裁定 → 补记进入裁定的终端边（勘误 F-5）
+      const last = trace.steps[trace.steps.length - 1];
+      trace.edges.push({ from: last.node, branch: last.branch, to: last.next });
       return trace;
     }
     const node = nodeById.get(cur);

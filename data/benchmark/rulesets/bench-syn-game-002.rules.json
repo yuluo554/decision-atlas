@@ -1,0 +1,164 @@
+{
+  "schema_version": "1",
+  "ruleset_id": "SYN-GAME-002",
+  "title": "假「赛季资格」规则（中档 9 节点，虚构合成基准，与真实机构无关）",
+  "description": "假「赛季资格」规则：白名单场景 SYN-GAME，由 tools/gen_bench.js 程序化生成并冻结（禁手改，--check 位级守门）。",
+  "inputs": [
+    {
+      "key": "level_value",
+      "type": "number",
+      "label": "等级（虚构数值）",
+      "search_range": [
+        0,
+        188
+      ]
+    },
+    {
+      "key": "pass_owned",
+      "type": "boolean",
+      "label": "持有通行证（虚构道具）"
+    },
+    {
+      "key": "rank_band",
+      "type": "enum",
+      "label": "段位带（虚构）",
+      "values": [
+        "bandIron",
+        "bandSteel",
+        "bandGold"
+      ]
+    }
+  ],
+  "verdicts": [
+    {
+      "id": "V.main",
+      "label": "获得资格",
+      "kind": "approve"
+    },
+    {
+      "id": "V.fallback",
+      "label": "未获资格",
+      "kind": "reject"
+    }
+  ],
+  "root": "n1",
+  "nodes": [
+    {
+      "id": "n1",
+      "label": "等级门槛",
+      "condition": {
+        "field": "level_value",
+        "op": ">=",
+        "value": 28
+      },
+      "branches": {
+        "yes": "n2",
+        "no": "n4"
+      }
+    },
+    {
+      "id": "n2",
+      "label": "通行证",
+      "condition": {
+        "field": "pass_owned",
+        "op": "==",
+        "value": true
+      },
+      "branches": {
+        "yes": "n3",
+        "no": "n5"
+      }
+    },
+    {
+      "id": "n3",
+      "label": "段位匹配",
+      "condition": {
+        "field": "rank_band",
+        "op": "==",
+        "value": "bandIron"
+      },
+      "branches": {
+        "yes": "nB0",
+        "no": "n6"
+      }
+    },
+    {
+      "id": "n4",
+      "label": "等级门槛（宽松档）",
+      "condition": {
+        "field": "level_value",
+        "op": ">=",
+        "value": 18
+      },
+      "branches": {
+        "yes": "V.main",
+        "no": "n7"
+      }
+    },
+    {
+      "id": "n5",
+      "label": "等级复核（恒真定式）",
+      "condition": {
+        "field": "level_value",
+        "op": ">=",
+        "value": 8
+      },
+      "branches": {
+        "yes": "V.main",
+        "no": "V.fallback"
+      }
+    },
+    {
+      "id": "n6",
+      "label": "通行证复核",
+      "condition": {
+        "field": "pass_owned",
+        "op": "==",
+        "value": true
+      },
+      "branches": {
+        "yes": "V.main",
+        "no": "V.fallback"
+      }
+    },
+    {
+      "id": "n7",
+      "label": "影子约束（不可达定式）",
+      "condition": {
+        "field": "level_value",
+        "op": ">=",
+        "value": 88
+      },
+      "branches": {
+        "yes": "V.main",
+        "no": "V.fallback"
+      }
+    },
+    {
+      "id": "nB0",
+      "label": "等级附加门槛1",
+      "condition": {
+        "field": "level_value",
+        "op": ">=",
+        "value": 13
+      },
+      "branches": {
+        "yes": "nB1",
+        "no": "V.fallback"
+      }
+    },
+    {
+      "id": "nB1",
+      "label": "等级附加门槛2",
+      "condition": {
+        "field": "level_value",
+        "op": ">=",
+        "value": 8
+      },
+      "branches": {
+        "yes": "V.main",
+        "no": "V.fallback"
+      }
+    }
+  ]
+}

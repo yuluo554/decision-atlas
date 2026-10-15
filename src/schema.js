@@ -119,8 +119,13 @@ export function validateRuleset(rs) {
     if (!['number', 'boolean', 'enum', 'string'].includes(type)) { errors.push({ code: 'E_TYPE', path: p + '.type', message: '未知 type：' + type }); return; }
     inputTypes.set(key, type);
     if (type === 'enum') {
-      if (!Array.isArray(values) || values.length === 0) errors.push({ code: 'E_REQUIRED', path: p + '.values', message: 'enum 字段需要非空 values' });
-      else inputValues.set(key, values);
+      // schema v1 冻结勘误（04 §1.2 同步）：enum 成员限字符串。v0 曾允许 number 成员，
+      // 但案例校验对 enum 取值恒按 string 校验，number 成员将导致案例永远无法通过校验。
+      if (!Array.isArray(values) || values.length === 0) {
+        errors.push({ code: 'E_REQUIRED', path: p + '.values', message: 'enum 字段需要非空 values' });
+      } else if (values.some((v) => typeof v !== 'string')) {
+        errors.push({ code: 'E_VALUE', path: p + '.values', message: 'enum 成员必须是字符串（v1 冻结口径）' });
+      } else inputValues.set(key, values);
     }
     if (search_range !== undefined) {
       if (type !== 'number') errors.push({ code: 'E_SEARCH_RANGE', path: p + '.search_range', message: '仅 number 字段允许 search_range' });

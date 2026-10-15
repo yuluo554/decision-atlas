@@ -26,6 +26,7 @@ test('样例基准案例：走通路径与裁定（手工推演对账）', () =>
     { from: 'n1', branch: 'yes', to: 'n2' },
     { from: 'n2', branch: 'no', to: 'n3' },
     { from: 'n3', branch: 'yes', to: 'n4' },
+    { from: 'n4', branch: 'yes', to: 'V.playoff' }, // 终端边（v1 勘误 F-5：edges 含进入裁定的终端边）
   ]);
 });
 
@@ -33,9 +34,14 @@ test('分支切换：等级不足 → V.reject；会员直通 → V.direct', () 
   const rs = sampleRuleset();
   const t1 = traceRuleset(rs, { level: 10, wins: 128, member: false, tier: 'gold' });
   assert.equal(t1.verdict.id, 'V.reject');
+  assert.deepEqual(t1.edges, [{ from: 'n1', branch: 'no', to: 'V.reject' }]); // 单步路径也有终端边
   const t2 = traceRuleset(rs, { level: 42, wins: 0, member: true, tier: 'bronze' });
   assert.equal(t2.verdict.id, 'V.direct');
   assert.deepEqual(t2.nodePath, ['n1', 'n2']);
+  assert.deepEqual(t2.edges, [
+    { from: 'n1', branch: 'yes', to: 'n2' },
+    { from: 'n2', branch: 'yes', to: 'V.direct' },
+  ]);
 });
 
 test('求值确定性：同输入双跑 canonical sha256 相等（G1）', () => {

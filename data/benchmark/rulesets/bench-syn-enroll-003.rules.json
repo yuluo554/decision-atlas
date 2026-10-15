@@ -1,0 +1,203 @@
+{
+  "schema_version": "1",
+  "ruleset_id": "SYN-ENROLL-003",
+  "title": "假「研究入组资格」规则（大档 12 节点，虚构合成基准，与真实机构无关）",
+  "description": "假「研究入组资格」规则：白名单场景 SYN-ENROLL，由 tools/gen_bench.js 程序化生成并冻结（禁手改，--check 位级守门）。",
+  "inputs": [
+    {
+      "key": "age_years",
+      "type": "number",
+      "label": "年龄（虚构）",
+      "search_range": [
+        0,
+        182
+      ]
+    },
+    {
+      "key": "consent_signed",
+      "type": "boolean",
+      "label": "已签知情同意（虚构）"
+    },
+    {
+      "key": "site_cohort",
+      "type": "enum",
+      "label": "中心队列（虚构）",
+      "values": [
+        "cohortA",
+        "cohortB",
+        "cohortC"
+      ]
+    }
+  ],
+  "verdicts": [
+    {
+      "id": "V.main",
+      "label": "符合入组",
+      "kind": "approve"
+    },
+    {
+      "id": "V.fallback",
+      "label": "不入组",
+      "kind": "reject"
+    }
+  ],
+  "root": "n1",
+  "nodes": [
+    {
+      "id": "n1",
+      "label": "年龄下限",
+      "condition": {
+        "field": "age_years",
+        "op": ">=",
+        "value": 22
+      },
+      "branches": {
+        "yes": "n2",
+        "no": "n4"
+      }
+    },
+    {
+      "id": "n2",
+      "label": "知情同意",
+      "condition": {
+        "field": "consent_signed",
+        "op": "==",
+        "value": true
+      },
+      "branches": {
+        "yes": "n3",
+        "no": "n5"
+      }
+    },
+    {
+      "id": "n3",
+      "label": "队列匹配",
+      "condition": {
+        "field": "site_cohort",
+        "op": "==",
+        "value": "cohortA"
+      },
+      "branches": {
+        "yes": "nB0",
+        "no": "n6"
+      }
+    },
+    {
+      "id": "n4",
+      "label": "年龄下限（宽松档）",
+      "condition": {
+        "field": "age_years",
+        "op": ">=",
+        "value": 12
+      },
+      "branches": {
+        "yes": "V.main",
+        "no": "n7"
+      }
+    },
+    {
+      "id": "n5",
+      "label": "年龄复核（恒真定式）",
+      "condition": {
+        "field": "age_years",
+        "op": ">=",
+        "value": 2
+      },
+      "branches": {
+        "yes": "V.main",
+        "no": "V.fallback"
+      }
+    },
+    {
+      "id": "n6",
+      "label": "同意书复核",
+      "condition": {
+        "field": "consent_signed",
+        "op": "==",
+        "value": true
+      },
+      "branches": {
+        "yes": "V.main",
+        "no": "V.fallback"
+      }
+    },
+    {
+      "id": "n7",
+      "label": "影子约束（不可达定式）",
+      "condition": {
+        "field": "age_years",
+        "op": ">=",
+        "value": 82
+      },
+      "branches": {
+        "yes": "V.main",
+        "no": "V.fallback"
+      }
+    },
+    {
+      "id": "nB0",
+      "label": "年龄附加门槛1",
+      "condition": {
+        "field": "age_years",
+        "op": ">=",
+        "value": 7
+      },
+      "branches": {
+        "yes": "nB1",
+        "no": "V.fallback"
+      }
+    },
+    {
+      "id": "nB1",
+      "label": "年龄附加门槛2",
+      "condition": {
+        "field": "age_years",
+        "op": ">=",
+        "value": 2
+      },
+      "branches": {
+        "yes": "nB2",
+        "no": "V.fallback"
+      }
+    },
+    {
+      "id": "nB2",
+      "label": "年龄附加门槛3",
+      "condition": {
+        "field": "age_years",
+        "op": ">=",
+        "value": -3
+      },
+      "branches": {
+        "yes": "nB3",
+        "no": "V.fallback"
+      }
+    },
+    {
+      "id": "nB3",
+      "label": "年龄附加门槛4",
+      "condition": {
+        "field": "age_years",
+        "op": ">=",
+        "value": -8
+      },
+      "branches": {
+        "yes": "nB4",
+        "no": "V.fallback"
+      }
+    },
+    {
+      "id": "nB4",
+      "label": "年龄附加门槛5",
+      "condition": {
+        "field": "age_years",
+        "op": ">=",
+        "value": -13
+      },
+      "branches": {
+        "yes": "V.main",
+        "no": "V.fallback"
+      }
+    }
+  ]
+}

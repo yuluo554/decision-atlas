@@ -1,0 +1,117 @@
+{
+  "suite": "syn-game-001",
+  "cases": [
+    {
+      "case_id": "syn-game-001-base",
+      "kind": "base",
+      "input": {
+        "level_value": 26,
+        "pass_owned": false,
+        "rank_band": "bandIron"
+      },
+      "expect": {
+        "verdict:V.main": true,
+        "node:n1": true,
+        "node:n4": true,
+        "edge:n1:no": true,
+        "edge:n4:yes": true
+      }
+    },
+    {
+      "case_id": "syn-game-001-alt",
+      "kind": "alt",
+      "input": {
+        "level_value": 36,
+        "pass_owned": false,
+        "rank_band": "bandIron"
+      },
+      "expect": {
+        "verdict:V.main": true,
+        "node:n1": true,
+        "node:n2": true,
+        "node:n5": true,
+        "edge:n1:yes": true,
+        "edge:n2:no": true,
+        "edge:n5:yes": true,
+        "counterfactual:vs:syn-game-001-base": true,
+        "delta:edge:n1:no": true,
+        "delta:edge:n1:yes": true,
+        "delta:edge:n2:no": true,
+        "delta:edge:n4:yes": true,
+        "delta:edge:n5:yes": true
+      }
+    },
+    {
+      "case_id": "syn-game-001-lo1",
+      "kind": "boundary",
+      "input": {
+        "level_value": 30,
+        "pass_owned": false,
+        "rank_band": "bandIron"
+      },
+      "expect": {
+        "verdict:V.main": true,
+        "node:n1": true,
+        "node:n4": true,
+        "edge:n1:no": true,
+        "edge:n4:yes": true,
+        "boundary:n1:field:level_value:T:31": true
+      }
+    },
+    {
+      "case_id": "syn-game-001-hi1",
+      "kind": "boundary",
+      "input": {
+        "level_value": 32,
+        "pass_owned": false,
+        "rank_band": "bandIron"
+      },
+      "expect": {
+        "verdict:V.main": true,
+        "node:n1": true,
+        "node:n2": true,
+        "node:n5": true,
+        "edge:n1:yes": true,
+        "edge:n2:no": true,
+        "edge:n5:yes": true,
+        "boundary:n1:field:level_value:T:31": true
+      }
+    },
+    {
+      "case_id": "syn-game-001-lo05",
+      "kind": "boundary",
+      "input": {
+        "level_value": 30.5,
+        "pass_owned": false,
+        "rank_band": "bandIron"
+      },
+      "expect": {
+        "verdict:V.main": true,
+        "node:n1": true,
+        "node:n4": true,
+        "edge:n1:no": true,
+        "edge:n4:yes": true,
+        "boundary:n1:field:level_value:T:31": true
+      }
+    },
+    {
+      "case_id": "syn-game-001-hi05",
+      "kind": "boundary",
+      "input": {
+        "level_value": 31.5,
+        "pass_owned": false,
+        "rank_band": "bandIron"
+      },
+      "expect": {
+        "verdict:V.main": true,
+        "node:n1": true,
+        "node:n2": true,
+        "node:n5": true,
+        "edge:n1:yes": true,
+        "edge:n2:no": true,
+        "edge:n5:yes": true,
+        "boundary:n1:field:level_value:T:31": true
+      }
+    }
+  ]
+}

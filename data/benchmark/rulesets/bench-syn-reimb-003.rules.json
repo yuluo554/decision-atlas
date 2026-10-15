@@ -1,0 +1,203 @@
+{
+  "schema_version": "1",
+  "ruleset_id": "SYN-REIMB-003",
+  "title": "假「报销准入」规则（大档 12 节点，虚构合成基准，与真实机构无关）",
+  "description": "假「报销准入」规则：白名单场景 SYN-REIMB，由 tools/gen_bench.js 程序化生成并冻结（禁手改，--check 位级守门）。",
+  "inputs": [
+    {
+      "key": "claim_amount",
+      "type": "number",
+      "label": "申报金额（虚构额度）",
+      "search_range": [
+        0,
+        663
+      ]
+    },
+    {
+      "key": "receipt_attached",
+      "type": "boolean",
+      "label": "凭证齐全（虚构）"
+    },
+    {
+      "key": "cost_type",
+      "type": "enum",
+      "label": "费用类别（虚构）",
+      "values": [
+        "typeA",
+        "typeB",
+        "typeC"
+      ]
+    }
+  ],
+  "verdicts": [
+    {
+      "id": "V.main",
+      "label": "准予报销",
+      "kind": "approve"
+    },
+    {
+      "id": "V.fallback",
+      "label": "不予报销",
+      "kind": "reject"
+    }
+  ],
+  "root": "n1",
+  "nodes": [
+    {
+      "id": "n1",
+      "label": "金额上限",
+      "condition": {
+        "field": "claim_amount",
+        "op": ">=",
+        "value": 503
+      },
+      "branches": {
+        "yes": "n2",
+        "no": "n4"
+      }
+    },
+    {
+      "id": "n2",
+      "label": "凭证齐全",
+      "condition": {
+        "field": "receipt_attached",
+        "op": "==",
+        "value": true
+      },
+      "branches": {
+        "yes": "n3",
+        "no": "n5"
+      }
+    },
+    {
+      "id": "n3",
+      "label": "类别匹配",
+      "condition": {
+        "field": "cost_type",
+        "op": "==",
+        "value": "typeC"
+      },
+      "branches": {
+        "yes": "nB0",
+        "no": "n6"
+      }
+    },
+    {
+      "id": "n4",
+      "label": "金额上限（宽松档）",
+      "condition": {
+        "field": "claim_amount",
+        "op": ">=",
+        "value": 493
+      },
+      "branches": {
+        "yes": "V.main",
+        "no": "n7"
+      }
+    },
+    {
+      "id": "n5",
+      "label": "金额复核（恒真定式）",
+      "condition": {
+        "field": "claim_amount",
+        "op": ">=",
+        "value": 483
+      },
+      "branches": {
+        "yes": "V.main",
+        "no": "V.fallback"
+      }
+    },
+    {
+      "id": "n6",
+      "label": "凭证复核",
+      "condition": {
+        "field": "receipt_attached",
+        "op": "==",
+        "value": true
+      },
+      "branches": {
+        "yes": "V.main",
+        "no": "V.fallback"
+      }
+    },
+    {
+      "id": "n7",
+      "label": "影子约束（不可达定式）",
+      "condition": {
+        "field": "claim_amount",
+        "op": ">=",
+        "value": 563
+      },
+      "branches": {
+        "yes": "V.main",
+        "no": "V.fallback"
+      }
+    },
+    {
+      "id": "nB0",
+      "label": "金额附加门槛1",
+      "condition": {
+        "field": "claim_amount",
+        "op": ">=",
+        "value": 488
+      },
+      "branches": {
+        "yes": "nB1",
+        "no": "V.fallback"
+      }
+    },
+    {
+      "id": "nB1",
+      "label": "金额附加门槛2",
+      "condition": {
+        "field": "claim_amount",
+        "op": ">=",
+        "value": 483
+      },
+      "branches": {
+        "yes": "nB2",
+        "no": "V.fallback"
+      }
+    },
+    {
+      "id": "nB2",
+      "label": "金额附加门槛3",
+      "condition": {
+        "field": "claim_amount",
+        "op": ">=",
+        "value": 478
+      },
+      "branches": {
+        "yes": "nB3",
+        "no": "V.fallback"
+      }
+    },
+    {
+      "id": "nB3",
+      "label": "金额附加门槛4",
+      "condition": {
+        "field": "claim_amount",
+        "op": ">=",
+        "value": 473
+      },
+      "branches": {
+        "yes": "nB4",
+        "no": "V.fallback"
+      }
+    },
+    {
+      "id": "nB4",
+      "label": "金额附加门槛5",
+      "condition": {
+        "field": "claim_amount",
+        "op": ">=",
+        "value": 468
+      },
+      "branches": {
+        "yes": "V.main",
+        "no": "V.fallback"
+      }
+    }
+  ]
+}

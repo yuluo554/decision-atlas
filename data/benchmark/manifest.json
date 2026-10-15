@@ -1,0 +1,196 @@
+{
+  "schema_version": "1",
+  "generated_by": "tools/gen_bench.js（splitmix64 固定 seed，双跑逐字节一致；--check 位级守门；禁手改）",
+  "whitelist_scenarios": [
+    "SYN-ENROLL",
+    "SYN-REIMB",
+    "SYN-CREDIT",
+    "SYN-GAME"
+  ],
+  "totals": {
+    "ruleset_packs": 12,
+    "case_files": 12,
+    "cases_total": 72,
+    "nodes_total": 112,
+    "truth_entries": {
+      "thresholds": 52,
+      "unreachable_branches": 12,
+      "tautology_branches": 12,
+      "counterfactual_pairs": 12
+    }
+  },
+  "sampling": {
+    "declaration": "抽样非穷举：分母 = 规则包总数 / 节点合计 / 案例-边对合计（见 totals），分子 = 植入真值条目；任何覆盖率表述必须带此分母。"
+  },
+  "thresholds_note": "指标门槛（路径/裁定准确率下限、临界点命中率、不可达检出 precision/recall、反事实对账率）数值 M4 定稿后回填本文件；M1 仅立骨架。",
+  "packs": [
+    {
+      "scenario": "SYN-ENROLL",
+      "tier": "small",
+      "ruleset": "rulesets/bench-syn-enroll-001.rules.json",
+      "cases": "cases/syn-enroll-001.cases.json",
+      "nodes": 7,
+      "case_count": 6,
+      "truth_types": {
+        "thresholds": 2,
+        "unreachable_branches": 1,
+        "tautology_branches": 1,
+        "counterfactual_pairs": 1
+      }
+    },
+    {
+      "scenario": "SYN-ENROLL",
+      "tier": "mid",
+      "ruleset": "rulesets/bench-syn-enroll-002.rules.json",
+      "cases": "cases/syn-enroll-002.cases.json",
+      "nodes": 9,
+      "case_count": 6,
+      "truth_types": {
+        "thresholds": 4,
+        "unreachable_branches": 1,
+        "tautology_branches": 1,
+        "counterfactual_pairs": 1
+      }
+    },
+    {
+      "scenario": "SYN-ENROLL",
+      "tier": "large",
+      "ruleset": "rulesets/bench-syn-enroll-003.rules.json",
+      "cases": "cases/syn-enroll-003.cases.json",
+      "nodes": 12,
+      "case_count": 6,
+      "truth_types": {
+        "thresholds": 7,
+        "unreachable_branches": 1,
+        "tautology_branches": 1,
+        "counterfactual_pairs": 1
+      }
+    },
+    {
+      "scenario": "SYN-REIMB",
+      "tier": "small",
+      "ruleset": "rulesets/bench-syn-reimb-001.rules.json",
+      "cases": "cases/syn-reimb-001.cases.json",
+      "nodes": 7,
+      "case_count": 6,
+      "truth_types": {
+        "thresholds": 2,
+        "unreachable_branches": 1,
+        "tautology_branches": 1,
+        "counterfactual_pairs": 1
+      }
+    },
+    {
+      "scenario": "SYN-REIMB",
+      "tier": "mid",
+      "ruleset": "rulesets/bench-syn-reimb-002.rules.json",
+      "cases": "cases/syn-reimb-002.cases.json",
+      "nodes": 9,
+      "case_count": 6,
+      "truth_types": {
+        "thresholds": 4,
+        "unreachable_branches": 1,
+        "tautology_branches": 1,
+        "counterfactual_pairs": 1
+      }
+    },
+    {
+      "scenario": "SYN-REIMB",
+      "tier": "large",
+      "ruleset": "rulesets/bench-syn-reimb-003.rules.json",
+      "cases": "cases/syn-reimb-003.cases.json",
+      "nodes": 12,
+      "case_count": 6,
+      "truth_types": {
+        "thresholds": 7,
+        "unreachable_branches": 1,
+        "tautology_branches": 1,
+        "counterfactual_pairs": 1
+      }
+    },
+    {
+      "scenario": "SYN-CREDIT",
+      "tier": "small",
+      "ruleset": "rulesets/bench-syn-credit-001.rules.json",
+      "cases": "cases/syn-credit-001.cases.json",
+      "nodes": 7,
+      "case_count": 6,
+      "truth_types": {
+        "thresholds": 2,
+        "unreachable_branches": 1,
+        "tautology_branches": 1,
+        "counterfactual_pairs": 1
+      }
+    },
+    {
+      "scenario": "SYN-CREDIT",
+      "tier": "mid",
+      "ruleset": "rulesets/bench-syn-credit-002.rules.json",
+      "cases": "cases/syn-credit-002.cases.json",
+      "nodes": 9,
+      "case_count": 6,
+      "truth_types": {
+        "thresholds": 4,
+        "unreachable_branches": 1,
+        "tautology_branches": 1,
+        "counterfactual_pairs": 1
+      }
+    },
+    {
+      "scenario": "SYN-CREDIT",
+      "tier": "large",
+      "ruleset": "rulesets/bench-syn-credit-003.rules.json",
+      "cases": "cases/syn-credit-003.cases.json",
+      "nodes": 12,
+      "case_count": 6,
+      "truth_types": {
+        "thresholds": 7,
+        "unreachable_branches": 1,
+        "tautology_branches": 1,
+        "counterfactual_pairs": 1
+      }
+    },
+    {
+      "scenario": "SYN-GAME",
+      "tier": "small",
+      "ruleset": "rulesets/bench-syn-game-001.rules.json",
+      "cases": "cases/syn-game-001.cases.json",
+      "nodes": 7,
+      "case_count": 6,
+      "truth_types": {
+        "thresholds": 2,
+        "unreachable_branches": 1,
+        "tautology_branches": 1,
+        "counterfactual_pairs": 1
+      }
+    },
+    {
+      "scenario": "SYN-GAME",
+      "tier": "mid",
+      "ruleset": "rulesets/bench-syn-game-002.rules.json",
+      "cases": "cases/syn-game-002.cases.json",
+      "nodes": 9,
+      "case_count": 6,
+      "truth_types": {
+        "thresholds": 4,
+        "unreachable_branches": 1,
+        "tautology_branches": 1,
+        "counterfactual_pairs": 1
+      }
+    },
+    {
+      "scenario": "SYN-GAME",
+      "tier": "large",
+      "ruleset": "rulesets/bench-syn-game-003.rules.json",
+      "cases": "cases/syn-game-003.cases.json",
+      "nodes": 12,
+      "case_count": 6,
+      "truth_types": {
+        "thresholds": 7,
+        "unreachable_branches": 1,
+        "tautology_branches": 1,
+        "counterfactual_pairs": 1
+      }
+    }
+  ]
+}

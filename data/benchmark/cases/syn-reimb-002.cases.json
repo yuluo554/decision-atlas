@@ -1,0 +1,117 @@
+{
+  "suite": "syn-reimb-002",
+  "cases": [
+    {
+      "case_id": "syn-reimb-002-base",
+      "kind": "base",
+      "input": {
+        "claim_amount": 490,
+        "receipt_attached": false,
+        "cost_type": "typeC"
+      },
+      "expect": {
+        "verdict:V.main": true,
+        "node:n1": true,
+        "node:n4": true,
+        "edge:n1:no": true,
+        "edge:n4:yes": true
+      }
+    },
+    {
+      "case_id": "syn-reimb-002-alt",
+      "kind": "alt",
+      "input": {
+        "claim_amount": 500,
+        "receipt_attached": false,
+        "cost_type": "typeC"
+      },
+      "expect": {
+        "verdict:V.main": true,
+        "node:n1": true,
+        "node:n2": true,
+        "node:n5": true,
+        "edge:n1:yes": true,
+        "edge:n2:no": true,
+        "edge:n5:yes": true,
+        "counterfactual:vs:syn-reimb-002-base": true,
+        "delta:edge:n1:no": true,
+        "delta:edge:n1:yes": true,
+        "delta:edge:n2:no": true,
+        "delta:edge:n4:yes": true,
+        "delta:edge:n5:yes": true
+      }
+    },
+    {
+      "case_id": "syn-reimb-002-lo1",
+      "kind": "boundary",
+      "input": {
+        "claim_amount": 494,
+        "receipt_attached": false,
+        "cost_type": "typeC"
+      },
+      "expect": {
+        "verdict:V.main": true,
+        "node:n1": true,
+        "node:n4": true,
+        "edge:n1:no": true,
+        "edge:n4:yes": true,
+        "boundary:n1:field:claim_amount:T:495": true
+      }
+    },
+    {
+      "case_id": "syn-reimb-002-hi1",
+      "kind": "boundary",
+      "input": {
+        "claim_amount": 496,
+        "receipt_attached": false,
+        "cost_type": "typeC"
+      },
+      "expect": {
+        "verdict:V.main": true,
+        "node:n1": true,
+        "node:n2": true,
+        "node:n5": true,
+        "edge:n1:yes": true,
+        "edge:n2:no": true,
+        "edge:n5:yes": true,
+        "boundary:n1:field:claim_amount:T:495": true
+      }
+    },
+    {
+      "case_id": "syn-reimb-002-lo05",
+      "kind": "boundary",
+      "input": {
+        "claim_amount": 494.5,
+        "receipt_attached": false,
+        "cost_type": "typeC"
+      },
+      "expect": {
+        "verdict:V.main": true,
+        "node:n1": true,
+        "node:n4": true,
+        "edge:n1:no": true,
+        "edge:n4:yes": true,
+        "boundary:n1:field:claim_amount:T:495": true
+      }
+    },
+    {
+      "case_id": "syn-reimb-002-hi05",
+      "kind": "boundary",
+      "input": {
+        "claim_amount": 495.5,
+        "receipt_attached": false,
+        "cost_type": "typeC"
+      },
+      "expect": {
+        "verdict:V.main": true,
+        "node:n1": true,
+        "node:n2": true,
+        "node:n5": true,
+        "edge:n1:yes": true,
+        "edge:n2:no": true,
+        "edge:n5:yes": true,
+        "boundary:n1:field:claim_amount:T:495": true
+      }
+    }
+  ]
+}

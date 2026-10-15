@@ -1,0 +1,138 @@
+{
+  "schema_version": "1",
+  "ruleset_id": "SYN-CREDIT-001",
+  "title": "假「信贷审批」规则（小档 7 节点，虚构合成基准，与真实机构无关）",
+  "description": "假「信贷审批」规则：白名单场景 SYN-CREDIT，由 tools/gen_bench.js 程序化生成并冻结（禁手改，--check 位级守门）。",
+  "inputs": [
+    {
+      "key": "score_points",
+      "type": "number",
+      "label": "评分（虚构分值）",
+      "search_range": [
+        0,
+        764
+      ]
+    },
+    {
+      "key": "income_verified",
+      "type": "boolean",
+      "label": "收入已核验（虚构）"
+    },
+    {
+      "key": "risk_band",
+      "type": "enum",
+      "label": "风险带（虚构）",
+      "values": [
+        "bandLow",
+        "bandMid",
+        "bandHigh"
+      ]
+    }
+  ],
+  "verdicts": [
+    {
+      "id": "V.main",
+      "label": "准予授信",
+      "kind": "approve"
+    },
+    {
+      "id": "V.fallback",
+      "label": "不予授信",
+      "kind": "reject"
+    }
+  ],
+  "root": "n1",
+  "nodes": [
+    {
+      "id": "n1",
+      "label": "评分门槛",
+      "condition": {
+        "field": "score_points",
+        "op": ">=",
+        "value": 604
+      },
+      "branches": {
+        "yes": "n2",
+        "no": "n4"
+      }
+    },
+    {
+      "id": "n2",
+      "label": "收入核验",
+      "condition": {
+        "field": "income_verified",
+        "op": "==",
+        "value": true
+      },
+      "branches": {
+        "yes": "n3",
+        "no": "n5"
+      }
+    },
+    {
+      "id": "n3",
+      "label": "风险带匹配",
+      "condition": {
+        "field": "risk_band",
+        "op": "==",
+        "value": "bandHigh"
+      },
+      "branches": {
+        "yes": "V.main",
+        "no": "n6"
+      }
+    },
+    {
+      "id": "n4",
+      "label": "评分门槛（宽松档）",
+      "condition": {
+        "field": "score_points",
+        "op": ">=",
+        "value": 594
+      },
+      "branches": {
+        "yes": "V.main",
+        "no": "n7"
+      }
+    },
+    {
+      "id": "n5",
+      "label": "评分复核（恒真定式）",
+      "condition": {
+        "field": "score_points",
+        "op": ">=",
+        "value": 584
+      },
+      "branches": {
+        "yes": "V.main",
+        "no": "V.fallback"
+      }
+    },
+    {
+      "id": "n6",
+      "label": "核验复核",
+      "condition": {
+        "field": "income_verified",
+        "op": "==",
+        "value": true
+      },
+      "branches": {
+        "yes": "V.main",
+        "no": "V.fallback"
+      }
+    },
+    {
+      "id": "n7",
+      "label": "影子约束（不可达定式）",
+      "condition": {
+        "field": "score_points",
+        "op": ">=",
+        "value": 664
+      },
+      "branches": {
+        "yes": "V.main",
+        "no": "V.fallback"
+      }
+    }
+  ]
+}

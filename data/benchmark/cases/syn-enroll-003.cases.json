@@ -1,0 +1,117 @@
+{
+  "suite": "syn-enroll-003",
+  "cases": [
+    {
+      "case_id": "syn-enroll-003-base",
+      "kind": "base",
+      "input": {
+        "age_years": 17,
+        "consent_signed": false,
+        "site_cohort": "cohortB"
+      },
+      "expect": {
+        "verdict:V.main": true,
+        "node:n1": true,
+        "node:n4": true,
+        "edge:n1:no": true,
+        "edge:n4:yes": true
+      }
+    },
+    {
+      "case_id": "syn-enroll-003-alt",
+      "kind": "alt",
+      "input": {
+        "age_years": 27,
+        "consent_signed": false,
+        "site_cohort": "cohortB"
+      },
+      "expect": {
+        "verdict:V.main": true,
+        "node:n1": true,
+        "node:n2": true,
+        "node:n5": true,
+        "edge:n1:yes": true,
+        "edge:n2:no": true,
+        "edge:n5:yes": true,
+        "counterfactual:vs:syn-enroll-003-base": true,
+        "delta:edge:n1:no": true,
+        "delta:edge:n1:yes": true,
+        "delta:edge:n2:no": true,
+        "delta:edge:n4:yes": true,
+        "delta:edge:n5:yes": true
+      }
+    },
+    {
+      "case_id": "syn-enroll-003-lo1",
+      "kind": "boundary",
+      "input": {
+        "age_years": 21,
+        "consent_signed": false,
+        "site_cohort": "cohortB"
+      },
+      "expect": {
+        "verdict:V.main": true,
+        "node:n1": true,
+        "node:n4": true,
+        "edge:n1:no": true,
+        "edge:n4:yes": true,
+        "boundary:n1:field:age_years:T:22": true
+      }
+    },
+    {
+      "case_id": "syn-enroll-003-hi1",
+      "kind": "boundary",
+      "input": {
+        "age_years": 23,
+        "consent_signed": false,
+        "site_cohort": "cohortB"
+      },
+      "expect": {
+        "verdict:V.main": true,
+        "node:n1": true,
+        "node:n2": true,
+        "node:n5": true,
+        "edge:n1:yes": true,
+        "edge:n2:no": true,
+        "edge:n5:yes": true,
+        "boundary:n1:field:age_years:T:22": true
+      }
+    },
+    {
+      "case_id": "syn-enroll-003-lo05",
+      "kind": "boundary",
+      "input": {
+        "age_years": 21.5,
+        "consent_signed": false,
+        "site_cohort": "cohortB"
+      },
+      "expect": {
+        "verdict:V.main": true,
+        "node:n1": true,
+        "node:n4": true,
+        "edge:n1:no": true,
+        "edge:n4:yes": true,
+        "boundary:n1:field:age_years:T:22": true
+      }
+    },
+    {
+      "case_id": "syn-enroll-003-hi05",
+      "kind": "boundary",
+      "input": {
+        "age_years": 22.5,
+        "consent_signed": false,
+        "site_cohort": "cohortB"
+      },
+      "expect": {
+        "verdict:V.main": true,
+        "node:n1": true,
+        "node:n2": true,
+        "node:n5": true,
+        "edge:n1:yes": true,
+        "edge:n2:no": true,
+        "edge:n5:yes": true,
+        "boundary:n1:field:age_years:T:22": true
+      }
+    }
+  ]
+}

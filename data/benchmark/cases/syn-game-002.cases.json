@@ -1,0 +1,117 @@
+{
+  "suite": "syn-game-002",
+  "cases": [
+    {
+      "case_id": "syn-game-002-base",
+      "kind": "base",
+      "input": {
+        "level_value": 23,
+        "pass_owned": false,
+        "rank_band": "bandGold"
+      },
+      "expect": {
+        "verdict:V.main": true,
+        "node:n1": true,
+        "node:n4": true,
+        "edge:n1:no": true,
+        "edge:n4:yes": true
+      }
+    },
+    {
+      "case_id": "syn-game-002-alt",
+      "kind": "alt",
+      "input": {
+        "level_value": 33,
+        "pass_owned": false,
+        "rank_band": "bandGold"
+      },
+      "expect": {
+        "verdict:V.main": true,
+        "node:n1": true,
+        "node:n2": true,
+        "node:n5": true,
+        "edge:n1:yes": true,
+        "edge:n2:no": true,
+        "edge:n5:yes": true,
+        "counterfactual:vs:syn-game-002-base": true,
+        "delta:edge:n1:no": true,
+        "delta:edge:n1:yes": true,
+        "delta:edge:n2:no": true,
+        "delta:edge:n4:yes": true,
+        "delta:edge:n5:yes": true
+      }
+    },
+    {
+      "case_id": "syn-game-002-lo1",
+      "kind": "boundary",
+      "input": {
+        "level_value": 27,
+        "pass_owned": false,
+        "rank_band": "bandGold"
+      },
+      "expect": {
+        "verdict:V.main": true,
+        "node:n1": true,
+        "node:n4": true,
+        "edge:n1:no": true,
+        "edge:n4:yes": true,
+        "boundary:n1:field:level_value:T:28": true
+      }
+    },
+    {
+      "case_id": "syn-game-002-hi1",
+      "kind": "boundary",
+      "input": {
+        "level_value": 29,
+        "pass_owned": false,
+        "rank_band": "bandGold"
+      },
+      "expect": {
+        "verdict:V.main": true,
+        "node:n1": true,
+        "node:n2": true,
+        "node:n5": true,
+        "edge:n1:yes": true,
+        "edge:n2:no": true,
+        "edge:n5:yes": true,
+        "boundary:n1:field:level_value:T:28": true
+      }
+    },
+    {
+      "case_id": "syn-game-002-lo05",
+      "kind": "boundary",
+      "input": {
+        "level_value": 27.5,
+        "pass_owned": false,
+        "rank_band": "bandGold"
+      },
+      "expect": {
+        "verdict:V.main": true,
+        "node:n1": true,
+        "node:n4": true,
+        "edge:n1:no": true,
+        "edge:n4:yes": true,
+        "boundary:n1:field:level_value:T:28": true
+      }
+    },
+    {
+      "case_id": "syn-game-002-hi05",
+      "kind": "boundary",
+      "input": {
+        "level_value": 28.5,
+        "pass_owned": false,
+        "rank_band": "bandGold"
+      },
+      "expect": {
+        "verdict:V.main": true,
+        "node:n1": true,
+        "node:n2": true,
+        "node:n5": true,
+        "edge:n1:yes": true,
+        "edge:n2:no": true,
+        "edge:n5:yes": true,
+        "boundary:n1:field:level_value:T:28": true
+      }
+    }
+  ]
+}

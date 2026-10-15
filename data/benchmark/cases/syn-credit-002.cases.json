@@ -1,0 +1,117 @@
+{
+  "suite": "syn-credit-002",
+  "cases": [
+    {
+      "case_id": "syn-credit-002-base",
+      "kind": "base",
+      "input": {
+        "score_points": 590,
+        "income_verified": false,
+        "risk_band": "bandLow"
+      },
+      "expect": {
+        "verdict:V.main": true,
+        "node:n1": true,
+        "node:n4": true,
+        "edge:n1:no": true,
+        "edge:n4:yes": true
+      }
+    },
+    {
+      "case_id": "syn-credit-002-alt",
+      "kind": "alt",
+      "input": {
+        "score_points": 600,
+        "income_verified": false,
+        "risk_band": "bandLow"
+      },
+      "expect": {
+        "verdict:V.main": true,
+        "node:n1": true,
+        "node:n2": true,
+        "node:n5": true,
+        "edge:n1:yes": true,
+        "edge:n2:no": true,
+        "edge:n5:yes": true,
+        "counterfactual:vs:syn-credit-002-base": true,
+        "delta:edge:n1:no": true,
+        "delta:edge:n1:yes": true,
+        "delta:edge:n2:no": true,
+        "delta:edge:n4:yes": true,
+        "delta:edge:n5:yes": true
+      }
+    },
+    {
+      "case_id": "syn-credit-002-lo1",
+      "kind": "boundary",
+      "input": {
+        "score_points": 594,
+        "income_verified": false,
+        "risk_band": "bandLow"
+      },
+      "expect": {
+        "verdict:V.main": true,
+        "node:n1": true,
+        "node:n4": true,
+        "edge:n1:no": true,
+        "edge:n4:yes": true,
+        "boundary:n1:field:score_points:T:595": true
+      }
+    },
+    {
+      "case_id": "syn-credit-002-hi1",
+      "kind": "boundary",
+      "input": {
+        "score_points": 596,
+        "income_verified": false,
+        "risk_band": "bandLow"
+      },
+      "expect": {
+        "verdict:V.main": true,
+        "node:n1": true,
+        "node:n2": true,
+        "node:n5": true,
+        "edge:n1:yes": true,
+        "edge:n2:no": true,
+        "edge:n5:yes": true,
+        "boundary:n1:field:score_points:T:595": true
+      }
+    },
+    {
+      "case_id": "syn-credit-002-lo05",
+      "kind": "boundary",
+      "input": {
+        "score_points": 594.5,
+        "income_verified": false,
+        "risk_band": "bandLow"
+      },
+      "expect": {
+        "verdict:V.main": true,
+        "node:n1": true,
+        "node:n4": true,
+        "edge:n1:no": true,
+        "edge:n4:yes": true,
+        "boundary:n1:field:score_points:T:595": true
+      }
+    },
+    {
+      "case_id": "syn-credit-002-hi05",
+      "kind": "boundary",
+      "input": {
+        "score_points": 595.5,
+        "income_verified": false,
+        "risk_band": "bandLow"
+      },
+      "expect": {
+        "verdict:V.main": true,
+        "node:n1": true,
+        "node:n2": true,
+        "node:n5": true,
+        "edge:n1:yes": true,
+        "edge:n2:no": true,
+        "edge:n5:yes": true,
+        "boundary:n1:field:score_points:T:595": true
+      }
+    }
+  ]
+}
