@@ -1,0 +1,8 @@
+# 全仓文本行尾统一 LF。
+# 本机 core.autocrlf=true，必须由本文件兜底（否则检出即 CRLF，撞守门测试）；
+# 验证见 tests/hygiene.test.js（扫描已跟踪文件不得含 CR 字节）。
+* text=auto eol=lf
+*.png binary
+*.jpg binary
+*.gif binary
+*.zip binary

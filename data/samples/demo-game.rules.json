@@ -1,0 +1,44 @@
+{
+  "schema_version": "1",
+  "ruleset_id": "SYN-GAME-001",
+  "title": "合成演示：假「赛季晋级」规则（虚构，与真实机构无关）",
+  "description": "白名单场景 SYN-GAME：假游戏晋级判定（等级/胜场/会员状态为假数值与假字段）。骨架演示样例，schema v1 冻结后允许迁移一次。",
+  "inputs": [
+    { "key": "level", "type": "number", "label": "等级", "search_range": [0, 200] },
+    { "key": "wins", "type": "number", "label": "赛季胜场", "search_range": [0, 5000] },
+    { "key": "member", "type": "boolean", "label": "会员" },
+    { "key": "tier", "type": "enum", "label": "段位", "values": ["bronze", "silver", "gold"] }
+  ],
+  "verdicts": [
+    { "id": "V.direct", "label": "直接晋级", "kind": "approve" },
+    { "id": "V.playoff", "label": "进入晋级赛", "kind": "refer" },
+    { "id": "V.reject", "label": "不晋级", "kind": "reject" }
+  ],
+  "root": "n1",
+  "nodes": [
+    {
+      "id": "n1",
+      "label": "等级门槛",
+      "condition": { "field": "level", "op": ">=", "value": 30 },
+      "branches": { "yes": "n2", "no": "V.reject" }
+    },
+    {
+      "id": "n2",
+      "label": "会员直通",
+      "condition": { "field": "member", "op": "==", "value": true },
+      "branches": { "yes": "V.direct", "no": "n3" }
+    },
+    {
+      "id": "n3",
+      "label": "胜场门槛",
+      "condition": { "field": "wins", "op": ">=", "value": 100 },
+      "branches": { "yes": "n4", "no": "V.reject" }
+    },
+    {
+      "id": "n4",
+      "label": "段位门槛",
+      "condition": { "field": "tier", "op": "in", "value": ["silver", "gold"] },
+      "branches": { "yes": "V.playoff", "no": "V.reject" }
+    }
+  ]
+}

@@ -1,0 +1,36 @@
+name: CI
+
+# M0 预置：M6 首推后按实跑修订（首推前的一切 CI 结论都以"本地等价校验"口径留档）。
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  test:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+        node: [22, 24]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node }}
+      - name: 自检（selftest：确定性双跑 + 渲染双跑 + 无外链）
+        run: node tools/atlas.js selftest
+      - name: 测试（零依赖，无需 install）
+        run: node --test tests/
+      - name: 示例构建冒烟
+        run: node tools/atlas.js build data/samples/demo-game.rules.json --case data/samples/demo-game.case.json -o out/ci-demo.html
+      - name: CLI 退出码语义冒烟（未知命令 = 2）
+        shell: bash
+        run: |
+          if node tools/atlas.js no-such-command; then
+            echo "未知命令应返回退出码 2"; exit 1
+          else
+            code=$?
+            if [ "$code" != "2" ]; then echo "期望退出码 2，实际 $code"; exit 1; fi
+          fi
