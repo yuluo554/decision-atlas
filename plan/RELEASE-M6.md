@@ -47,8 +47,9 @@
 | 1（首推，重写历史后的 8 提交 main） | 7c97b57 | **四矩阵全挂**——`node --test tests/` 目录形式 MODULE_NOT_FOUND（CI 复现本机 F-2 坑；日志留 GitHub run 38748959280） |
 | 2（CI 修复） | 2dc9cde | **四矩阵全挂**——m4.test C4 依赖未入仓的 `out/demo-game.html`（.gitignore 排除），CI 上 ENOENT（run 38749253877） |
 | 3（C4 自足化） | 94cb567 | **四矩阵全绿 success**（run 38749501567：ubuntu-latest×22/24 + windows-latest×22/24 全 success） |
+| 4（M6 收尾回写） | 1ed802c | **四矩阵全绿 success**（完结提交） |
 
-对账：push 数 3 = run 数 3（`gh run list` 逐条 headSha 与 `git log origin/main` 一致）。失败轮 2 个均如实留档：修 CI 配置与测试环境依赖，未动 `src/`/`tools/`/`data/` 冻结件。
+对账：push 数 4 = run 数 4（`gh run list` 逐条 headSha 与 `git log origin/main` 一致）。失败轮 2 个均如实留档：修 CI 配置与测试环境依赖，未动 `src/`/`tools/`/`data/` 冻结件。
 
 ## 六、发布扫描结论
 
