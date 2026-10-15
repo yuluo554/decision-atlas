@@ -1,0 +1,48 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+.pytest_cache/
+.mypy_cache/
+build/
+dist/
+
+# Node / JS（本项目为 JS 规则引擎 + 单文件 HTML 输出）
+node_modules/
+package-lock.json.bak
+npm-debug.log*
+yarn-error.log*
+.eslintcache
+
+# 运行产物
+output/
+reports/
+release/
+*.log
+.tmp/
+*.bak
+selftest.json
+
+# 生成的单文件 HTML 示例产物（发布副本放 release/，不入工作区）
+dist/*.html
+out/*.html
+
+# 隔离的包管理器 store（本地验证用）
+.clean-store/
+.clean-venv/
+
+# 环境与密钥
+.env
+*.key
+*_private/
+
+# 用户提供的真实规则集（隐私红线：不入仓；见 data/README.md §三 合成数据纪律）
+data/**/_private/
+data/private/
+
+# 系统文件
+Thumbs.db
+Desktop.ini
+.DS_Store
