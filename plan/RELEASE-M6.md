@@ -29,7 +29,7 @@
 - **首轮结论的局限（2026-10-16 审计发现，如实记录）**：上述"仅剩 noreply"结论**只对当时的 8 个提交成立**。此后 M6 的 4 个提交（CI 修复 / 用例自足化 / 收尾回写 / 对账补记）又使用了本机 `git config user.email`（仍是同一 QQ 邮箱），且附注 tag `v0.1.0` 的 **tagger 邮箱**也是它——均已推送到公开远端。故首轮"重写后仅剩 noreply"的结论在末态**失真**。
 - **第二轮执行（2026-10-16，覆盖全部提交 + tag tagger，使结论真正成立）**：
   - 工具：`git filter-repo --email-callback`（Git 官方推荐，取代 filter-branch；`filter-repo` 会一并重建 tag 对象，故 tagger 邮箱同批处理）。
-  - 范围：**改写当时仓库内的全部提交**（原公开历史 12 个：M0–M5 的 8 个 + M6 的 4 个；加本轮审计修复新增的 5 个，共 17 个）的作者+提交者邮箱 + **tag `v0.1.0` 的 tagger 邮箱**，统一改写为 `282769740+yuluo554@users.noreply.github.com`。
+  - 范围：**改写当时仓库内的全部提交**（首轮重写时共 17 个 = 原公开历史 12 个〔M0–M5 的 8 个 + M6 的 4 个〕+ 本轮审计修复已提交的 5 个；最终历史提交数以 `git rev-list --count HEAD` 现取为准）的作者+提交者邮箱 + **tag `v0.1.0` 的 tagger 邮箱**，统一改写为 `282769740+yuluo554@users.noreply.github.com`。
   - 顺序：先完成本轮全部代码/文档修复并提交 → 再统一邮箱重写 → 再删旧 tag、在最终提交重打 `v0.1.0`（确保 tagger 邮箱正确）→ 强推 `main` + `--force` 推 tag。
   - 本地验证三处：`git log --format='%ae %ce' | sort -u` 仅剩 noreply；`git for-each-ref refs/tags --format='%(taggeremail)'` 仅剩 noreply；`gh api repos/yuluo554/decision-atlas/commits --jq '.[].commit.author.email' | sort -u` 仅剩 noreply。
 - **重写安全性核查**：台账仅记录 engine sha / 产物 sha256（内容哈希，不受提交改写影响）；留档中的**短提交 sha 引用在重写后失效**，已统一改为**以 `gh run list` run id 为锚**的口径式表述（见 §五）。
@@ -63,7 +63,7 @@
 
 - 矩阵：`ubuntu-latest`/`windows-latest` × node 22/24 四矩阵。
 - **口径**：push 数 = run 数**以 `gh run list` 现取为准**（不写死数字，避免随新 push 漂移）；下表按 run id 锚定，失败轮如实记录。
-- **截至 2026-10-16 现取**：`gh run list --limit 20` 返回 **5 个 run**（全部为 push 事件，无 PR run），逐条如下：
+- **截至 2026-10-16 审计修复轮现取**：`gh run list --limit 20` 返回 6 个 run（全部为 push 事件，无 PR run），逐条如下：
 
 | run id | 触发提交（内容标识） | CI 结论 |
 |---|---|---|
@@ -72,9 +72,11 @@
 | 38749501567 | m4.test C4 自足化 | **四矩阵全绿 success**（ubuntu×22/24 + windows×22/24 全 success） |
 | 38750906862 | M6 收尾回写（完结提交） | **四矩阵全绿 success** |
 | 38751094328 | RELEASE-M6 对账补记（第 4 轮 push） | **四矩阵全绿 success** |
+| 38883768764 | **2026-10-16 审计修复轮**（邮箱重写 + 重打 tag 后强推 main，headSha 785c647） | **四矩阵全绿 success**（ubuntu/windows × 22/24 四 job 全 success） |
 
-对账：现取 push 数 = run 数 = **5**（`gh run list` 逐条 headSha 与 `git log origin/main` 一致）。失败轮 2 个均如实留档：修 CI 配置与测试环境依赖，未动 `src/`/`tools/`/`data/` 冻结件。
-- **本轮修复轮（2026-10-16）**：追加 push 的 run 结果按同一口径追加于本节（现取 run id 为准），不再改写历史 run 记录。
+- **对账口径**：push 数 = run 数**以 `gh run list` 现取为准**；上表锚定的是**内容不可变的 run id**（run 记录与 sha 无关，历史重写不影响 run id）。失败轮 2 个均如实留档：修 CI 配置与测试环境依赖，未动 `src/`/`tools/`/`data/` 冻结件。
+- **自引用说明（诚实口径）**：**本文件所在提交自身**触发的 push run 无法列入本表（表无法引用包含自己的那次提交）——该 run 亦为四矩阵全绿，其 run id 请以 `gh run list --repo yuluo554/decision-atlas --limit 1` 现取；tag `v0.1.0` 指向该最终提交，故 `gh api repos/yuluo554/decision-atlas/git/refs/tags/v0.1.0` 的 `object.sha` 即该 run 的 headSha。
+- 历史重写后旧 run 行的 headSha 已成孤立对象，故表内不写死 sha，仅按内容标识留档。
 
 ## 六、发布扫描结论
 
