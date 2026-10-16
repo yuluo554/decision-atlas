@@ -8,14 +8,14 @@
 
 - 仓库：https://github.com/yuluo554/decision-atlas
 - Release：https://github.com/yuluo554/decision-atlas/releases/tag/v0.1.0（7 资产：示例单文件 HTML + 演示 GIF + 5 分镜截图，核验非 draft、附件在列）
-- 发布留档：`plan/RELEASE-M6.md`（脱敏扫描 PASS、git 邮箱 noreply 改写定夺、CI 3 push = 3 run 对账含两轮失败如实留档、全新 clone 与附件离线复核 PASS）
+- 发布留档：`plan/RELEASE-M6.md`（脱敏扫描 PASS、git 邮箱 noreply 改写定夺、CI push=run 对账**以 `gh run list` 现取为准**（含两轮失败如实留档）、全新 clone 与附件离线复核 PASS）
 
 ## 二、终态证据快照
 
 | 项 | 末态 |
 |---|---|
-| 测试 | `npm test` 83/83 全绿（零依赖、无需 install） |
-| CI | ubuntu/windows × node 22/24 四矩阵全绿（run 38749501567 起） |
+| 测试 | `npm test` 84/84 全绿（零依赖、无需 install；2026-10-16 审计修复新增 hygiene K-10 守门断言 1 项，83→84） |
+| CI | ubuntu/windows × node 22/24 四矩阵全绿（push=run 对账以 `gh run list` 现取为准；2026-10-16 现取 5 run，末 3 轮全绿，run id 见 plan/RELEASE-M6.md §五） |
 | 冻结件 | `gen_bench --check` FROZEN_OK（25 文件）；`src/`/`tools/`/`data/` 全程零改动 |
 | 确定性 | 双渲染/双跑 sha256 一致；Release 附件与构建产物逐字节一致 |
 | 台账 | plan/00/06/07 回写完毕（M6 ✅、承诺表 7/7 全勾、决策记录 +2 条）；data 台账 §五 待核对项 4/4 闭环 |
