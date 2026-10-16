@@ -25,9 +25,9 @@ release/
 *.bak
 selftest.json
 
-# 生成的单文件 HTML 示例产物（发布副本放 release/，不入工作区）
-dist/*.html
-out/*.html
+# 生成的构建产物目录（示例 HTML、bench 报告、demo 帧等；发布副本走 Release 资产，不入工作区）
+dist/
+out/
 
 # 隔离的包管理器 store（本地验证用）
 .clean-store/

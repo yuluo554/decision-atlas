@@ -70,7 +70,7 @@ SKILL.md   Agent 操作入口（何时用 / 输入契约 / 命令 / 边界 / 自
 src/       规则引擎、schema 校验、布局、渲染（确定性内核，零第三方依赖）
 tools/     atlas.js CLI（selftest/build/walk/bisect/counterfactual）+ validate.js + bench.js + gen_bench.js
 data/      数据台账与合成样例（白名单假业务场景；基准冻结件 data/benchmark）
-tests/     node:test 测试套件（83 项）
+tests/     node:test 测试套件（84 项）
 docs/      report.md 技术报告 + demo/ 演示素材（截图/GIF，程序化产出、双跑 sha256 一致）
 plan/      项目计划（00–07 + 交接快照 HANDOFF-M*.md）
 ```

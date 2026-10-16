@@ -141,7 +141,7 @@ node tools/atlas.js walk data/samples/demo-game.rules.json \
 node tools/atlas.js bisect data/samples/demo-game.rules.json \
   --case data/samples/demo-game.case.json                                 # level/wins 两条 BOUNDARY 证据对；非 number 字段（boolean/enum）显示 SKIP，属正常
 node tools/bench.js                                                       # BENCH_OK 12 suites，exit 0
-npm test                                                                  # 83 pass / 0 fail
+npm test                                                                  # 84 pass / 0 fail
 ```
 
 浏览器打开 `out/demo-game.html`（file:// 即可）验证交互：点击节点走通高亮、选择对比案例看 Δ 红色虚线、展开阈值面板看临界点证据对。完整演示素材见 `docs/demo/`，技术报告见 `docs/report.md`。
