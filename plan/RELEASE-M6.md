@@ -29,7 +29,7 @@
 - **首轮结论的局限（2026-10-16 审计发现，如实记录）**：上述"仅剩 noreply"结论**只对当时的 8 个提交成立**。此后 M6 的 4 个提交（CI 修复 / 用例自足化 / 收尾回写 / 对账补记）又使用了本机 `git config user.email`（仍是同一 QQ 邮箱），且附注 tag `v0.1.0` 的 **tagger 邮箱**也是它——均已推送到公开远端。故首轮"重写后仅剩 noreply"的结论在末态**失真**。
 - **第二轮执行（2026-10-16，覆盖全部提交 + tag tagger，使结论真正成立）**：
   - 工具：`git filter-repo --email-callback`（Git 官方推荐，取代 filter-branch；`filter-repo` 会一并重建 tag 对象，故 tagger 邮箱同批处理）。
-  - 范围：**全部 13 个提交**的作者+提交者邮箱 + **tag `v0.1.0` 的 tagger 邮箱**，统一改写为 `282769740+yuluo554@users.noreply.github.com`。
+  - 范围：**改写当时仓库内的全部提交**（原公开历史 12 个：M0–M5 的 8 个 + M6 的 4 个；加本轮审计修复新增的 5 个，共 17 个）的作者+提交者邮箱 + **tag `v0.1.0` 的 tagger 邮箱**，统一改写为 `282769740+yuluo554@users.noreply.github.com`。
   - 顺序：先完成本轮全部代码/文档修复并提交 → 再统一邮箱重写 → 再删旧 tag、在最终提交重打 `v0.1.0`（确保 tagger 邮箱正确）→ 强推 `main` + `--force` 推 tag。
   - 本地验证三处：`git log --format='%ae %ce' | sort -u` 仅剩 noreply；`git for-each-ref refs/tags --format='%(taggeremail)'` 仅剩 noreply；`gh api repos/yuluo554/decision-atlas/commits --jq '.[].commit.author.email' | sort -u` 仅剩 noreply。
 - **重写安全性核查**：台账仅记录 engine sha / 产物 sha256（内容哈希，不受提交改写影响）；留档中的**短提交 sha 引用在重写后失效**，已统一改为**以 `gh run list` run id 为锚**的口径式表述（见 §五）。
