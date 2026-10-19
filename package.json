@@ -1,6 +1,6 @@
 {
   "name": "decision-atlas",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "private": true,
   "description": "规则集 → 确定性求值 → 可交互单文件 HTML 决策树（反事实路径差 · 阈值二分 · 零依赖）",
   "type": "module",

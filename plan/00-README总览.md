@@ -80,6 +80,7 @@
 | M4 | 校验器 + 覆盖率自检 + 真值基准 | `--check` 逐字节比对通过；覆盖率对账有分母有分子；基准达标（门槛随 manifest）；探活逐套件必红 | ✅ 2026-10-15（validate.js 不变量 1–4 + sha256 比对；coverage.js 三值逻辑对账 P/R 全 1.000；bench.js 12 套件达标 + 探活 48 组必红 + exit 2 语义锁；83 项测试全绿；详见 06 与 HANDOFF-M5） |
 | M5 | 交付：SKILL.md 主入口 + 技术报告 + README（GIF 演示）+ 示例单文件 HTML + 测试与 CI | 全链路命令可跑；示例产物离线可开；干净环境演练 | ✅ 2026-10-15（SKILL.md 落盘，子代理无先验演练 PASS：7 命令全过 + 6 项红向验证吻合；docs/report.md 十节、断言均可复现；README 正式版含 GIF/截图/限制节；干净 clone 逐条命令一次跑通 8/8 exit 0、npm test 83 全绿；演示素材双跑 sha256 逐个一致；详见 06 与 HANDOFF-M6） |
 | M6 | 发布：**git tag + GitHub Release（附产物）+ 发布留档三件套**，发布 GitHub **公开仓库** | tag 存在、Release 附示例 HTML、留档文件入仓（`plan/RELEASE-M6.md`） | ✅ 2026-10-15（tag v0.1.0 + Release 7 资产核验通过 + RELEASE-M6.md 入仓 + CI 四矩阵全绿（push=run 对账以 `gh run list` 现取为准，末态 5 run 全绿）+ 全新 clone/附件复核 PASS + data 台账待核对项全闭环；详见 RELEASE-M6.md） |
+| M7 | 迭代：**运行时声明与 CI 对齐 + CI actions 升级**（`engines` ≥20→≥22；`checkout`/`setup-node` v4→v7 + `permissions`/`concurrency`） | `engines` 与矩阵一致（22/24 两档全在范围内）；新 CI run 4 job 全绿且 Node20 弃用注解 0 条；两个确定性指纹不变 | ✅ 2026-10-20（tag v0.1.1 + Release 复用 7 附件逐字节一致 + RELEASE-M7.md 入仓 + CI run 39310565422 四 job 全绿、注解 0 条；84/84 测试全绿、engine `01fb56fb…`/html `7d1e24fd…` 未变；详见 RELEASE-M7.md） |
 
 **M0 修订说明**：反事实/阈值二分从 M4 前移至 M2（与引擎同批交付可证伪语义），M4 聚焦校验器/覆盖率/基准——详表见 [06-里程碑详表.md](06-里程碑详表.md)；评分映射见 [07-交付对标与决策记录.md](07-交付对标与决策记录.md)。
 

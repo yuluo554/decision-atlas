@@ -6,7 +6,7 @@
 
 ![演示 GIF：走通高亮 → 反事实 Δ 高亮 → 阈值面板](docs/demo/demo.gif)
 
-> 状态：**v0.1.0 已发布**（M0 计划先行、M1 数据先行、M2 确定性内核、M3 渲染、M4 校验与基准、M5 SKILL/报告/素材、M6 GitHub 公开发布——tag v0.1.0 + Release + 发布留档，项目完结）。
+> 状态：**v0.1.1 已发布**（M0 计划先行、M1 数据先行、M2 确定性内核、M3 渲染、M4 校验与基准、M5 SKILL/报告/素材、M6 GitHub 公开发布、v0.1.1 迭代：运行时底线抬到 Node ≥22 + CI actions 升 v7——tag v0.1.1 + Release + 发布留档 `plan/RELEASE-M7.md`）。
 
 ## 与"AI 画图"的本质区别
 
@@ -86,6 +86,7 @@ plan/      项目计划（00–07 + 交接快照 HANDOFF-M*.md）
 | M4 | 校验器 + 覆盖率自检 + 真值基准 | ✅ |
 | M5 | SKILL.md + 技术报告 + README 正式版 + 演示素材 | ✅ |
 | M6 | GitHub 公开发布 + Release | ✅ 2026-10-15（[v0.1.0 Release](https://github.com/yuluo554/decision-atlas/releases/tag/v0.1.0)） |
+| M7 | 运行时声明与 CI 对齐 + actions 升级 | ✅ 2026-10-20（`engines` 抬到 Node ≥22 与矩阵对齐；`checkout`/`setup-node` 升 v7；[v0.1.1 Release](https://github.com/yuluo554/decision-atlas/releases/tag/v0.1.1)） |
 
 ## 限制
 
