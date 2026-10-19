@@ -30,7 +30,7 @@
 |---|---|
 | ![bench](docs/demo/demo-4-bench.png) | ![validate](docs/demo/demo-5-validate.png) |
 
-## 快速开始（零依赖：无需 `npm install`，只需 Node ≥ 20）
+## 快速开始（零依赖：无需 `npm install`，只需 Node ≥ 22）
 
 ```bash
 node tools/atlas.js selftest          # 内置自检（确定性双跑 + 渲染双跑 + 无外链）

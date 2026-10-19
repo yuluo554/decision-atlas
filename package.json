@@ -6,7 +6,7 @@
   "type": "module",
   "license": "MIT",
   "engines": {
-    "node": ">=20"
+    "node": ">=22"
   },
   "scripts": {
     "test": "node --test tests/schema.test.js tests/engine.test.js tests/render.test.js tests/hygiene.test.js tests/genbench.test.js tests/m2.test.js tests/m3.test.js tests/m4.test.js",

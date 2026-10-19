@@ -71,7 +71,7 @@ YAML 语法越界统一报 `E_YAML_*`。
 
 `0` 成功 / `1` 内容校验失败 / `2` 用法或输入形态不可用（缺参数、缺文件、坏 JSON、YAML 越界）。
 
-## 三、命令（零依赖：无需 npm install，Node ≥ 20）
+## 三、命令（零依赖：无需 npm install，Node ≥ 22）
 
 ```bash
 # 0) 内置自检（确定性双跑 + 渲染双跑 + 无外链）
@@ -131,7 +131,7 @@ npm test
 ## 六、全流程演练（按序执行，全部应成功）
 
 ```bash
-# 前置：仓库根目录，Node >= 20
+# 前置：仓库根目录，Node >= 22
 node tools/atlas.js selftest                                              # SELFTEST_OK，exit 0
 node tools/atlas.js build data/samples/demo-game.rules.json \
   --case data/samples/demo-game.case.json -o out/demo-game.html           # BUILD_OK + sha256，exit 0
